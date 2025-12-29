@@ -5,7 +5,7 @@
 ## Overview
 A 2D "demake" inspired by the mechanics of *Prey (2017)*. The goal is to recreate the tense, atmospheric exploration of a semi-abandoned space station with a focus on:
 * **Interactive Environments:** Almost every prop can be picked up, thrown, or searched.
-* **Shapeshifting AI:** Mimic-style enemies that camouflage as environmental objects.
+* **Shapeshifting AI:** Shifter-style enemies that camouflage as environmental objects.
 * **Player Agency:** Multiple ways to solve puzzles (Gloo, Hacking, or brute force).
 
 ## Technical Goals
@@ -15,8 +15,8 @@ A 2D "demake" inspired by the mechanics of *Prey (2017)*. The goal is to recreat
 
 ## To-Do List
 - [ ] Implement player movement and gamepad mapping.
-- [ ] Create invisible collision walls for Morgan's Apartment.
-- [ ] Script the first "Mimic" chair-to-alien transformation.
+- [ ] Create invisible collision walls for players Apartment.
+- [ ] Script the first "Shifter" chair-to-alien transformation.
 - [ ] Build the inventory/recycling system logic.
 
 ## Legal Note
