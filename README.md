@@ -1,4 +1,4 @@
-# Project: [Shadow Station]
+# Project: Shadow Station
 **Target Platform:** Web / PC (Gamepad Supported)
 **Engine:** JavaScript (KAPLAY / Node.js)
 
