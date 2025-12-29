@@ -1,5 +1,5 @@
 {
-    "name": "Prey 2D Dev Environment",
+    "name": "Shadow Station Dev Environment",
     // Uses the official Node 25 image
     "image": "mcr.microsoft.com/devcontainers/javascript-node:25",
     
