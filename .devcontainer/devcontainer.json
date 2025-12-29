@@ -1,0 +1,33 @@
+{
+    "name": "Prey 2D Dev Environment",
+    // Uses the official Node 25 image
+    "image": "mcr.microsoft.com/devcontainers/javascript-node:25",
+    
+    // 1. Automatic Port Forwarding (so you can see your game)
+    "forwardPorts": [8000],
+    "portsAttributes": {
+        "8000": {
+            "label": "Game Preview",
+            "onAutoForward": "openPreview"
+        }
+    },
+
+    // 2. Automate the setup commands
+    "postCreateCommand": "npm install && npm install kaplay",
+
+    // 3. Pre-install extensions for your Android workflow
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "GitHub.copilot",
+                "dbaeumer.vscode-eslint",
+                "esbenp.prettier-vscode",
+                "ritwickdey.LiveServer"
+            ],
+            "settings": {
+                "editor.formatOnSave": true,
+                "editor.defaultFormatter": "esbenp.prettier-vscode"
+            }
+        }
+    }
+}
