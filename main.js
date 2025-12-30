@@ -30,18 +30,26 @@ loadSprite("morgan", "assets/character_9-16.png", {
     }
 });
 
+loadSpriteAtlas("assets/atlas_16x.png", {
+    "bed": { x: 160, y: 736, width: 32, height: 48 },      // Blue bed at the bottom
+    "desk": { x: 208, y: 288, width: 48, height: 32 },     // Large wooden desk
+    "pc": { x: 400, y: 16, width: 16, height: 16 },        // Computer monitor
+    "chair": { x: 208, y: 336, width: 16, height: 16 },    // Desk chair
+    "bookshelf": { x: 160, y: 528, width: 32, height: 48 } // Large shelf
+});
+
 // Define your level layout
 const map = addLevel([
     "##########",
     "#........#",
-    "#..c.....g", // Glass on the right
-    "#........g",
+    "#..c.....#", // Glass on the right
+    "#........#",
     "##########",
 ], {
     tileWidth: 64,
     tileHeight: 64,
     tiles: {
-        "#": () => [sprite("walls", { frame: 1 }), scale(4), area(), body({ isStatic: true })],
+        "#": () => [sprite("walls", { frame: 2 }), scale(4), area(), body({ isStatic: true })],
         ".": () => [sprite("floor", { frame: 3 }), scale(4)],
         "g": () => [sprite("walls", { frame: 10 }), scale(4), opacity(0.3), area(), body({ isStatic: true })],
         "c": () => [sprite("walls", { frame: 12 }), scale(4), area(), body({ isStatic: true })],
