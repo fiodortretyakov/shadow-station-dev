@@ -6,6 +6,7 @@ kaplay({
     texFilter: "nearest", // Ensures 16x16 stays crisp when scaled to 64x64
 });
 
+
 loadSprite("walls", "assets/Walls.png", {
     sliceX: 3, // 3 columns
     sliceY: 5, // 5 rows
@@ -30,21 +31,26 @@ loadSprite("morgan", "assets/character_9-16.png", {
 });
 
 // Define your level layout
-const level = addLevel([
-    " "
+const map = addLevel([
+    "##########",
+    "#........#",
+    "#..c.....g", // Glass on the right
+    "#........g",
+    "##########",
 ], {
     tileWidth: 64,
     tileHeight: 64,
     tiles: {
-        "w": () => [sprite("walls", { frame: 0 }), scale(4.01), area(), body({ isStatic: true }), "wall"],
-        " ": () => [sprite("floor", { frame: 3 }), scale(4.01), "floor"],
-        "g": () => [sprite("walls", { frame: 1 }), scale(4.01), area(), body({ isStatic: true }), "glass"],
+        "#": () => [sprite("walls", { frame: 1 }), scale(4), area(), body({ isStatic: true })],
+        ".": () => [sprite("floor", { frame: 3 }), scale(4)],
+        "g": () => [sprite("walls", { frame: 10 }), scale(4), opacity(0.3), area(), body({ isStatic: true })],
+        "c": () => [sprite("walls", { frame: 12 }), scale(4), area(), body({ isStatic: true })],
     }
 });
 
 const player = add([
     sprite("morgan", { anim: "idle-down" }),
-    pos(vec2(2 * 64, 2 * 64)),
+    pos(vec2(3 * 64, 3 * 64)),
     area({ shape: new Rect(vec2(0), 12, 12) }),
     z(10), // This ensures he is ABOVE the floor
     body(),
