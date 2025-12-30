@@ -7,10 +7,19 @@ kaplay({
     texFilter: "nearest", // Ensures 16x16 stays crisp when scaled to 64x64
 });
 
-
-loadSprite("walls", "assets/Walls.png", {
-    sliceX: 3, // 3 columns
-    sliceY: 5, // 5 rows
+loadSpriteAtlas("assets/Walls.png", {
+    "wall0": {
+        x: 16,    
+        y: 16,    
+        width: 32, 
+        height: 32
+    },
+    "glass-panel": {
+        x: 64,    
+        y: 16,    
+        width: 32, 
+        height: 32
+    }
 });
 
 loadSprite("floor", "assets/Floor.png", {
@@ -41,15 +50,31 @@ loadSpriteAtlas("assets/atlas_16x.png", {
 
 // Define your level layout
 const map = addLevel([
-    "#"
+    "wwwwww",
+    "w    w",
+    "w    w",
+    "wwwwww",
 ], {
     tileWidth: 64,
     tileHeight: 64,
     tiles: {
-        "#": () => [sprite("walls", { frame: 2 }), scale(4), area(), body({ isStatic: true })],
-        ".": () => [sprite("floor", { frame: 3 }), scale(4)],
-        "g": () => [sprite("walls", { frame: 10 }), scale(4), opacity(0.3), area(), body({ isStatic: true })],
-        "c": () => [sprite("walls", { frame: 12 }), scale(4), area(), body({ isStatic: true })],
+        "w": () => [
+            sprite("wall0"), // Use the name from atlas
+            scale(2), // Adjust scale based on your atlas tile size
+            area(),
+            body({ isStatic: true })
+        ],
+        "g": () => [
+            sprite("glass-panel"), 
+            scale(2),
+            area(),
+            body({ isStatic: true }),
+            opacity(0.5)
+        ],
+        ".": () => [
+            sprite("floor", { frame: 4 }), // You can still mix methods!
+            scale(2)
+        ],
     }
 });
 
@@ -59,7 +84,7 @@ const player = add([
     area({ shape: new Rect(vec2(2, 10), 12, 6) }),
     z(10), // This ensures he is ABOVE the floor
     body(),
-    scale(4),
+    scale(3),
     anchor("center"),
     "player",
 ]);
