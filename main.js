@@ -55,12 +55,12 @@ const map = addLevel([
     "w    w",
     "wwwwww",
 ], {
-    tileWidth: 192,
-    tileHeight: 128,
+    tileWidth: 128,
+    tileHeight: 96,
     tiles: {
         "w": () => [
             sprite("wall0"), // Use the name from atlas
-            scale(4), // Adjust scale based on your atlas tile size
+            scale(3), // Adjust scale based on your atlas tile size
             area(),
             body({ isStatic: true })
         ],
