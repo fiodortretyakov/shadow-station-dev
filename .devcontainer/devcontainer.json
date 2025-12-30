@@ -1,7 +1,14 @@
 {
     "name": "Shadow Station Dev Environment",
     // Uses the official Node 25 image
-    "image": "mcr.microsoft.com/devcontainers/javascript-node:25",
+    "image": "mcr.microsoft.com/devcontainers/javascript-node:20",
+
+    // 2. Use a "Feature" to install Node 25
+    "features": {
+        "ghcr.io/devcontainers/features/node:1": {
+            "version": "25" 
+        }
+    },
     
     // 1. Automatic Port Forwarding (so you can see your game)
     "forwardPorts": [8000],
@@ -25,8 +32,19 @@
                 "ritwickdey.LiveServer"
             ],
             "settings": {
-                "editor.formatOnSave": true,
-                "editor.defaultFormatter": "esbenp.prettier-vscode"
+                // 1. Automatically stage all changes when committing
+                "git.enableSmartCommit": true,
+                
+                // 2. Which changes to include (options: "all" or "tracked")
+                // "all" includes new files; "tracked" only includes edited files
+                "git.smartCommitChanges": "all",
+                
+                // 3. Stop asking for confirmation every time
+                "git.suggestSmartCommit": false,
+
+                // 4. (Optional) Auto-push after every commit
+                "git.postCommitCommand": "push",
+                "editor.formatOnSave": true
             }
         }
     }
