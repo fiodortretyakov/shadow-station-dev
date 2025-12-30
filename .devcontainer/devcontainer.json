@@ -44,7 +44,12 @@
 
                 // 4. (Optional) Auto-push after every commit
                 "git.postCommitCommand": "push",
-                "editor.formatOnSave": true
+                "editor.formatOnSave": true,
+                // STOPS the "Are you sure you want to move...?" popup
+                "explorer.confirmDragAndDrop": false,
+                
+                // STOPS the "Are you sure you want to delete...?" popup (Optional)
+                "explorer.confirmDelete": false
             }
         }
     }
