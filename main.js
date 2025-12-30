@@ -11,7 +11,7 @@ loadSpriteAtlas("assets/Walls.png", {
     "wall0": {
         x: 16,    
         y: 16,    
-        width: 32, 
+        width: 48, 
         height: 32
     },
     "glass-panel": {
@@ -51,16 +51,16 @@ loadSpriteAtlas("assets/atlas_16x.png", {
 // Define your level layout
 const map = addLevel([
     "wwwwww",
-    "w    w",
+    "w    ",
     "w    w",
     "wwwwww",
 ], {
-    tileWidth: 64,
-    tileHeight: 64,
+    tileWidth: 192,
+    tileHeight: 128,
     tiles: {
         "w": () => [
             sprite("wall0"), // Use the name from atlas
-            scale(2), // Adjust scale based on your atlas tile size
+            scale(4), // Adjust scale based on your atlas tile size
             area(),
             body({ isStatic: true })
         ],
@@ -93,7 +93,7 @@ player.onUpdate(() => {
     setCamPos(player.pos); // Follow Morgan as he moves
 });
 
-const SPEED = 300;
+const SPEED = 256;
 
 // LEFT
 onKeyDown("left", () => {
