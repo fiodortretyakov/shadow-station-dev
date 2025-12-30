@@ -30,7 +30,7 @@ loadSprite("morgan", "assets/character_9-16.png", {
 });
 
 // Define your level layout
-const map = addLevel([
+const level = addLevel([
     " "
 ], {
     tileWidth: 64,
@@ -44,7 +44,7 @@ const map = addLevel([
 
 const player = add([
     sprite("morgan", { anim: "idle-down" }),
-    pos(level.getPos(2, 2)), // Spawns him at tile coordinates (2,2)
+    pos(vec2(2 * 64, 2 * 64)),
     area({ shape: new Rect(vec2(0), 12, 12) }),
     z(10), // This ensures he is ABOVE the floor
     body(),
@@ -54,7 +54,7 @@ const player = add([
 ]);
 
 player.onUpdate(() => {
-    camPos(player.pos); // Follow Morgan as he moves
+    setCamPos(player.pos); // Follow Morgan as he moves
 });
 
 // At the bottom of main.js
@@ -72,4 +72,3 @@ scene("apartment", () => {
     setupControls(player); // One clean line to include all inputs
 });
 
-debug.inspect = true;
