@@ -3,6 +3,7 @@ import kaplay from "kaplay";
 kaplay({
     crisp: true,
     pixelDensity: 2,
+    pixelate: true,
     texFilter: "nearest", // Ensures 16x16 stays crisp when scaled to 64x64
 });
 
@@ -40,11 +41,7 @@ loadSpriteAtlas("assets/atlas_16x.png", {
 
 // Define your level layout
 const map = addLevel([
-    "##########",
-    "#........#",
-    "#..c.....#", // Glass on the right
-    "#........#",
-    "##########",
+    "#"
 ], {
     tileWidth: 64,
     tileHeight: 64,
@@ -59,7 +56,7 @@ const map = addLevel([
 const player = add([
     sprite("morgan", { anim: "idle-down" }),
     pos(vec2(3 * 64, 3 * 64)),
-    area({ shape: new Rect(vec2(0), 12, 12) }),
+    area({ shape: new Rect(vec2(2, 10), 12, 6) }),
     z(10), // This ensures he is ABOVE the floor
     body(),
     scale(4),
