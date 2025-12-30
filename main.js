@@ -1,6 +1,7 @@
 import kaplay from "kaplay";
 
 kaplay({
+    crisp: true,
     pixelDensity: 2,
     texFilter: "nearest", // Ensures 16x16 stays crisp when scaled to 64x64
 });
@@ -30,26 +31,31 @@ loadSprite("morgan", "assets/character_9-16.png", {
 
 // Define your level layout
 const map = addLevel([
-    "gg", // g = simulation glass
+    " "
 ], {
     tileWidth: 64,
     tileHeight: 64,
     tiles: {
-        "w": () => [sprite("walls", { frame: 0 }), scale(4), area(), body({ isStatic: true }), "wall"],
-        " ": () => [sprite("floor", { frame: 3 }), scale(4), "floor"],
-        "g": () => [sprite("walls", { frame: 1 }), scale(4), area(), body({ isStatic: true }), "glass"],
+        "w": () => [sprite("walls", { frame: 0 }), scale(4.01), area(), body({ isStatic: true }), "wall"],
+        " ": () => [sprite("floor", { frame: 3 }), scale(4.01), "floor"],
+        "g": () => [sprite("walls", { frame: 1 }), scale(4.01), area(), body({ isStatic: true }), "glass"],
     }
 });
 
 const player = add([
     sprite("morgan", { anim: "idle-down" }),
     pos(level.getPos(2, 2)), // Spawns him at tile coordinates (2,2)
-    area(),
+    area({ shape: new Rect(vec2(0), 12, 12) }),
+    z(10), // This ensures he is ABOVE the floor
     body(),
     scale(4),
-    anchor("bot"), // Keeps his feet on the floor
+    anchor("center"),
     "player",
 ]);
+
+player.onUpdate(() => {
+    camPos(player.pos); // Follow Morgan as he moves
+});
 
 // At the bottom of main.js
 function setupControls(p) {
@@ -65,3 +71,5 @@ function setupControls(p) {
 scene("apartment", () => {
     setupControls(player); // One clean line to include all inputs
 });
+
+debug.inspect = true;
