@@ -57,18 +57,51 @@ player.onUpdate(() => {
     setCamPos(player.pos); // Follow Morgan as he moves
 });
 
-// At the bottom of main.js
-function setupControls(p) {
-    onKeyDown("left", () => p.move(-300, 0));
-    onKeyDown("right", () => p.move(300, 0));
-    onKeyPress("space", () => {
-        // Logic for swinging the Wrench
-        debug.log("Wrench swing!");
-    });
-}
+const SPEED = 300;
 
-// Inside your scene
-scene("apartment", () => {
-    setupControls(player); // One clean line to include all inputs
+// LEFT
+onKeyDown("left", () => {
+    player.move(-SPEED, 0);
+    player.flipX = true; // Mirrored the right-facing sprite
+    if (player.curAnim() !== "walk-right") {
+        player.play("walk-right"); // Uses the same frames as right
+    }
 });
 
+// RIGHT
+onKeyDown("right", () => {
+    player.move(SPEED, 0);
+    player.flipX = false;
+    if (player.curAnim() !== "walk-right") {
+        player.play("walk-right");
+    }
+});
+
+// UP
+onKeyDown("up", () => {
+    player.move(0, -SPEED);
+    if (player.curAnim() !== "walk-up") {
+        player.play("walk-up");
+    }
+});
+
+// DOWN
+onKeyDown("down", () => {
+    player.move(0, SPEED);
+    if (player.curAnim() !== "walk-down") {
+        player.play("walk-down");
+    }
+});
+
+// This triggers whenever ANY of these keys are released
+onKeyRelease(["left", "right", "up", "down"], () => {
+    // Check if NO movement keys are currently held down
+    if (
+        !isKeyDown("left") && 
+        !isKeyDown("right") && 
+        !isKeyDown("up") && 
+        !isKeyDown("down")
+    ) {
+        player.play("idle-down"); // Resets to the front-facing idle frame
+    }
+});
