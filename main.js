@@ -38,7 +38,7 @@ const map = addLevel([
     tiles: {
         "w": () => [sprite("walls", { frame: 0 }), scale(4), area(), body({ isStatic: true }), "wall"],
         " ": () => [sprite("floor", { frame: 3 }), scale(4), "floor"],
-        "g": () => [sprite("walls", { frame: 1 }), scale(), area(), body({ isStatic: true }), "glass"],
+        "g": () => [sprite("walls", { frame: 1 }), scale(4), area(), body({ isStatic: true }), "glass"],
     }
 });
 
