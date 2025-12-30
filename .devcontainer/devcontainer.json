@@ -49,7 +49,18 @@
                 "explorer.confirmDragAndDrop": false,
                 
                 // STOPS the "Are you sure you want to delete...?" popup (Optional)
-                "explorer.confirmDelete": false
+                "explorer.confirmDelete": false,
+                // STOPS the "This action will push..." popup
+                "git.confirmSync": false,
+                // 1. Actually enable the auto-fetch (keep it in sync)  
+                "git.autofetch": true,
+                
+                // 2. STOP the "Would you like to periodically run git fetch?" popup
+                "git.autofetchPeriod": 180, // Fetches every 3 minutes
+                "git.confirmNoVerifyCommit": false, 
+                
+                // This setting is the one that specifically kills that "Help" prompt
+                "git.showPushSuccessNotification": false
             }
         }
     }
