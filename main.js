@@ -3,7 +3,6 @@ import kaplay from "kaplay";
 kaplay({
     pixelDensity: 2,
     texFilter: "nearest", // Ensures 16x16 stays crisp when scaled to 64x64
-    letterbox: true,      // Keeps the 16:9 aspect ratio clean
 });
 
 loadSprite("walls", "assets/Walls.png", {
