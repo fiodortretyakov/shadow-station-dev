@@ -11,9 +11,9 @@
     },
     
     // 1. Automatic Port Forwarding (so you can see your game)
-    "forwardPorts": [8000],
+    "forwardPorts": [5173],
     "portsAttributes": {
-        "8000": {
+        "5173": {
             "label": "Game Preview",
             "onAutoForward": "openPreview"
         }
