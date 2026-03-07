@@ -21,18 +21,11 @@ export class SpriteLoader {
      */
     static loadWalls(k) {
         k.loadSpriteAtlas(SPRITE_PATHS.walls, {
-            "wall0": {
-                x: 16,    
-                y: 16,    
-                width: 48, 
-                height: 32
-            },
-            "glass-panel": {
-                x: 64,    
-                y: 16,    
-                width: 32, 
-                height: 32
-            }
+            "wall-plain": { x: 0, y: 0, width: 64, height: 64 },
+            "wall-tech": { x: 64, y: 0, width: 64, height: 64 },
+            "monitor-panel": { x: 128, y: 0, width: 64, height: 64 },
+            "wall-vent": { x: 128, y: 128, width: 64, height: 64 },
+            "space-void": { x: 192, y: 64, width: 64, height: 64 }
         });
     }
 
@@ -41,9 +34,9 @@ export class SpriteLoader {
      * @param {Object} k - Kaplay instance
      */
     static loadFloor(k) {
-        k.loadSprite("floor", SPRITE_PATHS.floor, {
-            sliceX: 3,
-            sliceY: 2,
+        k.loadSpriteAtlas(SPRITE_PATHS.floor, {
+            "floor-solid": { x: 64, y: 64, width: 64, height: 64 },
+            "floor-pattern": { x: 0, y: 64, width: 64, height: 64 }
         });
     }
 
@@ -53,14 +46,14 @@ export class SpriteLoader {
      */
     static loadCharacter(k) {
         k.loadSprite("morgan", SPRITE_PATHS.character, {
-            sliceX: 12,
-            sliceY: 8,
+            sliceX: 4,
+            sliceY: 5,
             anims: {
-                "idle-down": 48,
-                "walk-down": { from: 48, to: 50, loop: true },
-                "walk-left": { from: 60, to: 62, loop: true },
-                "walk-right": { from: 72, to: 74, loop: true },
-                "walk-up": { from: 84, to: 86, loop: true },
+                "idle-down": 1,
+                "walk-down": { from: 0, to: 3, loop: true },
+                "walk-left": { from: 4, to: 7, loop: true },
+                "walk-right": { from: 8, to: 11, loop: true },
+                "walk-up": { from: 12, to: 15, loop: true },
             }
         });
     }
@@ -71,11 +64,9 @@ export class SpriteLoader {
      */
     static loadProps(k) {
         k.loadSpriteAtlas(SPRITE_PATHS.atlas, {
-            "bed": { x: 160, y: 736, width: 32, height: 48 },
-            "desk": { x: 208, y: 288, width: 48, height: 32 },
-            "pc": { x: 400, y: 16, width: 16, height: 16 },
-            "chair": { x: 208, y: 336, width: 16, height: 16 },
-            "bookshelf": { x: 160, y: 528, width: 32, height: 48 }
+            "door-locked": { x: 0, y: 192, width: 64, height: 64 },
+            "door-open": { x: 64, y: 192, width: 64, height: 64 },
+            "hazard-strip": { x: 192, y: 128, width: 64, height: 16 },
         });
     }
 }

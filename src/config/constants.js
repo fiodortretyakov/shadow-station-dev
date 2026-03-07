@@ -11,7 +11,7 @@ export const GAME_CONFIG = {
 
 export const PLAYER_CONFIG = {
     speed: 256,
-    scale: 3,
+    scale: 0.8,
     zIndex: 10,
     collisionBox: {
         offsetX: 2,
@@ -22,18 +22,23 @@ export const PLAYER_CONFIG = {
 };
 
 export const TILE_CONFIG = {
-    width: 128,
-    height: 96,
-    wallScale: 3,
-    glassScale: 2,
-    floorScale: 2,
+    width: 64,
+    height: 64,
+    wallScale: 1,
+    glassScale: 1,
+    floorScale: 1,
 };
 
 export const SPRITE_PATHS = {
-    walls: "assets/Walls.png",
-    floor: "assets/Floor.png",
-    character: "assets/character_9-16.png",
-    atlas: "assets/atlas_16x.png",
+    walls: "assets/Gemini_Generated_Image_3f987a3f987a3f98.png",
+    floor: "assets/Gemini_Generated_Image_c5hlgmc5hlgmc5hl.png",
+    character: "assets/Gemini_Generated_Image_oe0aakoe0aakoe0a.png",
+    atlas: "assets/Gemini_Generated_Image_3f987a3f987a3f98.png",
+};
+
+export const SOUND_PATHS = {
+    music: "assets/60.8s Recording (Dec 28 @ 7_05 PM) (Cover).mp3",
+    musicAlt: "assets/60.8s Recording (Dec 28 @ 7_05 PM) (Cover) 1.mp3",
 };
 
 export const ANIMATIONS = {

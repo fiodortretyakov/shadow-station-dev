@@ -28,38 +28,42 @@ export class InputHandler {
         const { k, player, speed } = this;
 
         // LEFT
-        k.onKeyDown("left", () => {
+        k.onKeyDown(["left", "a"], () => {
             player.move(-speed, 0);
             player.setFlip(true);
             player.playAnimation(ANIMATIONS.walkRight);
         });
 
         // RIGHT
-        k.onKeyDown("right", () => {
+        k.onKeyDown(["right", "d"], () => {
             player.move(speed, 0);
             player.setFlip(false);
             player.playAnimation(ANIMATIONS.walkRight);
         });
 
         // UP
-        k.onKeyDown("up", () => {
+        k.onKeyDown(["up", "w"], () => {
             player.move(0, -speed);
             player.playAnimation(ANIMATIONS.walkUp);
         });
 
         // DOWN
-        k.onKeyDown("down", () => {
+        k.onKeyDown(["down", "s"], () => {
             player.move(0, speed);
             player.playAnimation(ANIMATIONS.walkDown);
         });
 
         // Handle key release for idle animation
-        k.onKeyRelease(["left", "right", "up", "down"], () => {
+        k.onKeyRelease(["left", "right", "up", "down", "a", "s", "d", "w"], () => {
             if (
-                !k.isKeyDown("left") && 
-                !k.isKeyDown("right") && 
-                !k.isKeyDown("up") && 
-                !k.isKeyDown("down")
+                !k.isKeyDown("left") &&
+                !k.isKeyDown("right") &&
+                !k.isKeyDown("up") &&
+                !k.isKeyDown("down") &&
+                !k.isKeyDown("a") &&
+                !k.isKeyDown("s") &&
+                !k.isKeyDown("d") &&
+                !k.isKeyDown("w")
             ) {
                 player.playAnimation(ANIMATIONS.idleDown);
             }

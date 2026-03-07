@@ -27,20 +27,49 @@ export class GameMap {
             tileHeight: config.height,
             tiles: {
                 "w": () => [
-                    k.sprite("wall0"),
+                    k.sprite("wall-plain"),
                     k.scale(config.wallScale),
                     k.area(),
                     k.body({ isStatic: true })
                 ],
-                "g": () => [
-                    k.sprite("glass-panel"), 
-                    k.scale(config.glassScale),
+                "t": () => [
+                    k.sprite("wall-tech"),
+                    k.scale(config.wallScale),
                     k.area(),
-                    k.body({ isStatic: true }),
-                    k.opacity(0.5)
+                    k.body({ isStatic: true })
+                ],
+                "m": () => [
+                    k.sprite("monitor-panel"),
+                    k.scale(config.wallScale),
+                    k.area(),
+                    k.body({ isStatic: true })
+                ],
+                "v": () => [
+                    k.sprite("wall-vent"),
+                    k.scale(config.wallScale),
+                    k.area(),
+                    k.body({ isStatic: true })
+                ],
+                "d": () => [
+                    k.sprite("door-locked"),
+                    k.scale(config.wallScale),
+                    k.area(),
+                    k.body({ isStatic: true })
+                ],
+                "h": () => [
+                    k.sprite("hazard-strip"),
+                    k.scale(config.wallScale)
                 ],
                 ".": () => [
-                    k.sprite("floor", { frame: 4 }),
+                    k.sprite("floor-solid"),
+                    k.scale(config.floorScale)
+                ],
+                "p": () => [
+                    k.sprite("floor-pattern"),
+                    k.scale(config.floorScale)
+                ],
+                " ": () => [
+                    k.sprite("space-void"),
                     k.scale(config.floorScale)
                 ],
             }

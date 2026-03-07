@@ -4,6 +4,7 @@ import { SpriteLoader } from './loaders/SpriteLoader.js';
 import { GameMap } from './world/GameMap.js';
 import { Player } from './entities/Player.js';
 import { InputHandler } from './controllers/InputHandler.js';
+import { SoundLoader } from './loaders/SoundLoader.js';
 
 /**
  * Main game class that orchestrates all game systems
@@ -21,23 +22,42 @@ export class Game {
      */
     init() {
         // Initialize Kaplay
-        this.k = kaplay(GAME_CONFIG);
+        this.k = kaplay({
+            ...GAME_CONFIG,
+            background: [10, 10, 20],
+        });
 
-        // Load all sprites
+        // Load all sprites and sounds
         SpriteLoader.loadAllSprites(this.k);
+        SoundLoader.loadAllSounds(this.k);
+
+        // Start background music
+        SoundLoader.playMusic(this.k);
 
         // Create the map
         const mapLayout = [
-            "wwwwww",
-            "w    ",
-            "w    w",
-            "wwwwww",
+            "                    ",
+            "  wwwwwwwwwwwwwwww  ",
+            "  w..............w  ",
+            "  w..m.v..m.v....w  ",
+            "  w..............w  ",
+            "  t...h...h...h..t  ",
+            "  w..............w  ",
+            "  w..............w  ",
+            "  w..m.v..m.v....w  ",
+            "  w..............w  ",
+            "  t...h...h...h..t  ",
+            "  w..............w  ",
+            "  w..............w  ",
+            "  w.......d......w  ",
+            "  wwwwwwwwwwwwwwww  ",
+            "                    ",
         ];
         this.map = new GameMap(this.k, mapLayout);
         this.map.create();
 
         // Create the player
-        this.player = new Player(this.k, { x: 192, y: 192 });
+        this.player = new Player(this.k, { x: 400, y: 400 });
         this.player.create();
 
         // Setup input handling
