@@ -85,6 +85,19 @@ export class Game {
         this.lighting = new LightingSystem(this.k);
         this.lighting.init();
 
+        // Room ceiling lights (world-space positions matching the map layout, tile=64)
+        const T = 64;
+        // Overhead light – centre of bed area (col 2.5, row 2.5)
+        this.lighting.addPointLight(2.5*T, 2.5*T, 260, 1.0, 0.95, 0.82);
+        // Overhead light – desk / workstation area (col 6.5, row 6.5)
+        this.lighting.addPointLight(6.5*T, 6.5*T, 300, 1.0, 0.92, 0.75);
+        // Overhead light – bookshelf corner (col 12.5, row 2.5)
+        this.lighting.addPointLight(12.5*T, 2.5*T, 240, 1.0, 0.95, 0.82);
+        // Overhead light – centre of room (col 7.5, row 4)
+        this.lighting.addPointLight(7.5*T, 4*T, 320, 0.95, 0.92, 1.0);
+        // Locker area light (col 2, row 10)
+        this.lighting.addPointLight(2*T, 10*T, 200, 1.0, 0.90, 0.70);
+
         // Feed player position + facing angle to lighting every frame
         this.k.onUpdate(() => {
             if (this.player?.entity) {

@@ -40,6 +40,9 @@ const C = {
     packBase: '#2A2E3C', packMid: '#343848', packLight: '#444858',
     white: '#FFFFFF', black: '#000000',
     shadowDrop: 'rgba(0,0,20,0.30)',
+    // Helmet
+    helmShell: '#C8D4E8', helmLight: '#E8F0FF', helmShadow: '#7888A0', helmDark: '#505870',
+    neckRing: '#2E3648',
 };
 
 // ── Ground shadow ─────────────────────────────────────────────────────────────
@@ -75,7 +78,6 @@ function headFront(cx, cy) {
     // ── Hair front ────────────────────────────────────────────────────────────
     const hairGr = vg(cx-18, cy-28, 26, [0,C.hairLight],[0.5,C.hairBase],[1,C.hairBase]);
     g.fillStyle = hairGr;
-    // Main hair shape
     g.beginPath();
     g.moveTo(cx-17, cy-2);
     g.bezierCurveTo(cx-18, cy-20, cx-12, cy-28, cx, cy-28);
@@ -85,90 +87,18 @@ function headFront(cx, cy) {
     g.bezierCurveTo(cx, cy-22, cx-4, cy-22, cx-10, cy-18);
     g.bezierCurveTo(cx-14, cy-14, cx-16, cy-10, cx-17, cy-2);
     g.fill();
-    // Hair sheen
-    g.fillStyle = C.hairSheen;
-    g.beginPath(); g.ellipse(cx-4, cy-22, 6, 3, -0.3, 0, Math.PI*2); g.fill();
-    // Side strands
-    g.fillStyle = C.hairBase;
-    g.beginPath();
-    g.moveTo(cx-14, cy-10); g.bezierCurveTo(cx-19, cy-6, cx-19, cy+6, cx-14, cy+10);
-    g.lineTo(cx-12, cy+8); g.bezierCurveTo(cx-16, cy+4, cx-16, cy-4, cx-12, cy-8); g.fill();
-    g.beginPath();
-    g.moveTo(cx+14, cy-10); g.bezierCurveTo(cx+19, cy-6, cx+19, cy+6, cx+14, cy+10);
-    g.lineTo(cx+12, cy+8); g.bezierCurveTo(cx+16, cy+4, cx+16, cy-4, cx+12, cy-8); g.fill();
-
-    // ── Ears ──────────────────────────────────────────────────────────────────
-    g.fillStyle = C.skinMid;
-    g.beginPath(); g.ellipse(cx-15, cy+2, 3, 5, 0.15, 0, Math.PI*2); g.fill();
-    g.beginPath(); g.ellipse(cx+15, cy+2, 3, 5, -0.15, 0, Math.PI*2); g.fill();
-    g.strokeStyle = C.skinDark; g.lineWidth = 1;
-    g.beginPath(); g.ellipse(cx-15, cy+2, 1.5, 3, 0.15, 0, Math.PI*2); g.stroke();
-    g.beginPath(); g.ellipse(cx+15, cy+2, 1.5, 3, -0.15, 0, Math.PI*2); g.stroke();
-
-    // ── Eyebrows ──────────────────────────────────────────────────────────────
-    g.strokeStyle = C.brow; g.lineWidth = 3; g.lineCap='round';
-    g.beginPath(); g.moveTo(cx-10, cy-9); g.quadraticCurveTo(cx-5.5, cy-12, cx-1, cy-10); g.stroke();
-    g.beginPath(); g.moveTo(cx+10, cy-9); g.quadraticCurveTo(cx+5.5, cy-12, cx+1, cy-10); g.stroke();
-    g.lineWidth = 1.5;
-    g.beginPath(); g.moveTo(cx-10, cy-9); g.quadraticCurveTo(cx-5.5, cy-13, cx-1, cy-10); g.stroke();
-    g.beginPath(); g.moveTo(cx+10, cy-9); g.quadraticCurveTo(cx+5.5, cy-13, cx+1, cy-10); g.stroke();
 
     // ── Eyes ──────────────────────────────────────────────────────────────────
-    // White
     g.fillStyle = C.eyeWhite;
     g.beginPath(); g.ellipse(cx-6, cy-4, 5.5, 4, 0, 0, Math.PI*2); g.fill();
     g.beginPath(); g.ellipse(cx+6, cy-4, 5.5, 4, 0, 0, Math.PI*2); g.fill();
-    // Iris gradient
     const eyeGrL = rg(cx-6, cy-4, 4, [0,C.eyeLight],[0.5,C.eyeIris],[1,C.eyeDark]);
     const eyeGrR = rg(cx+6, cy-4, 4, [0,C.eyeLight],[0.5,C.eyeIris],[1,C.eyeDark]);
     g.fillStyle = eyeGrL; g.beginPath(); g.ellipse(cx-6, cy-4, 4, 4, 0, 0, Math.PI*2); g.fill();
     g.fillStyle = eyeGrR; g.beginPath(); g.ellipse(cx+6, cy-4, 4, 4, 0, 0, Math.PI*2); g.fill();
-    // Pupil
     g.fillStyle = C.pupil;
     g.beginPath(); g.ellipse(cx-6, cy-4, 2, 2, 0, 0, Math.PI*2); g.fill();
     g.beginPath(); g.ellipse(cx+6, cy-4, 2, 2, 0, 0, Math.PI*2); g.fill();
-    // Shine
-    g.fillStyle = 'rgba(255,255,255,0.85)';
-    g.beginPath(); g.ellipse(cx-7.5, cy-5.5, 1.4, 1, 0, 0, Math.PI*2); g.fill();
-    g.beginPath(); g.ellipse(cx+4.5, cy-5.5, 1.4, 1, 0, 0, Math.PI*2); g.fill();
-    // Lash line
-    g.strokeStyle = 'rgba(0,0,10,0.7)'; g.lineWidth = 1.5;
-    g.beginPath(); g.moveTo(cx-11,cy-4); g.quadraticCurveTo(cx-6,cy-8.5,cx-1,cy-4); g.stroke();
-    g.beginPath(); g.moveTo(cx+11,cy-4); g.quadraticCurveTo(cx+6,cy-8.5,cx+1,cy-4); g.stroke();
-
-    // ── Nose ──────────────────────────────────────────────────────────────────
-    g.strokeStyle = C.skinDark; g.lineWidth = 1.5; g.lineCap='round';
-    g.beginPath(); g.moveTo(cx-2, cy+1); g.lineTo(cx, cy+5); g.lineTo(cx+2, cy+1); g.stroke();
-    g.fillStyle = C.skinDark;
-    g.beginPath(); g.ellipse(cx-3, cy+5, 2, 1.5, 0, 0, Math.PI*2); g.fill();
-    g.beginPath(); g.ellipse(cx+3, cy+5, 2, 1.5, 0, 0, Math.PI*2); g.fill();
-
-    // ── Mouth ─────────────────────────────────────────────────────────────────
-    const lipGr = hg(cx-6, cy, 12, [0,C.lip],[0.5,C.lipLight],[1,C.lip]);
-    g.fillStyle = lipGr;
-    // Upper lip
-    g.beginPath();
-    g.moveTo(cx-6, cy+10);
-    g.bezierCurveTo(cx-4, cy+9, cx-2, cy+8, cx, cy+9);
-    g.bezierCurveTo(cx+2, cy+8, cx+4, cy+9, cx+6, cy+10);
-    g.bezierCurveTo(cx+4, cy+11, cx+2, cy+12, cx, cy+11);
-    g.bezierCurveTo(cx-2, cy+12, cx-4, cy+11, cx-6, cy+10);
-    g.fill();
-    // Lower lip
-    g.fillStyle = C.lipLight;
-    g.beginPath();
-    g.moveTo(cx-5, cy+11);
-    g.bezierCurveTo(cx-2, cy+14, cx+2, cy+14, cx+5, cy+11);
-    g.bezierCurveTo(cx+2, cy+15, cx-2, cy+15, cx-5, cy+11);
-    g.fill();
-    g.strokeStyle = C.lipDark; g.lineWidth = 1;
-    g.beginPath(); g.moveTo(cx-6, cy+10); g.lineTo(cx+6, cy+10); g.stroke();
-
-    // ── Face shadow ───────────────────────────────────────────────────────────
-    g.fillStyle = vg(cx-14, cy+8, 12, [0,'rgba(0,0,0,0)'],[1,'rgba(0,0,0,0.12)']);
-    g.beginPath();
-    g.moveTo(cx-10, cy+16); g.bezierCurveTo(cx-4, cy+20, cx+4, cy+20, cx+10, cy+16);
-    g.bezierCurveTo(cx+4, cy+22, cx-4, cy+22, cx-10, cy+16); g.fill();
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
@@ -184,15 +114,6 @@ function headBack(cx, cy) {
     g.bezierCurveTo(cx+10, cy-28, cx+18, cy-22, cx+17, cy-2);
     g.bezierCurveTo(cx+14, cy+10, cx-14, cy+10, cx-17, cy-2);
     g.fill();
-    // Hair strands
-    g.strokeStyle = C.hairBase; g.lineWidth = 2; g.lineCap='round';
-    for(let i=-2;i<=2;i++){
-        g.beginPath();
-        g.moveTo(cx+i*4, cy-28);
-        g.bezierCurveTo(cx+i*5, cy-14, cx+i*5, cx+i*2, cx+i*4, cy+8);
-        g.stroke();
-    }
-    g.fillStyle = C.hairSheen; g.beginPath(); g.ellipse(cx-4, cy-20, 7, 3, -0.3, 0, Math.PI*2); g.fill();
     // Neck
     g.fillStyle = vg(cx-5, cy+10, 12, [0,C.skinMid],[1,C.skinDark]);
     g.beginPath(); g.roundRect(cx-5, cy+10, 10, 12, 3); g.fill();
@@ -211,7 +132,6 @@ function headLeft(cx, cy) {
     g.lineTo(cx+2, cy+14);
     g.bezierCurveTo(cx-4, cy+4, cx-4, cy-14, cx-2, cy-24);
     g.fill();
-    g.fillStyle = C.hairSheen; g.beginPath(); g.ellipse(cx+6, cy-18, 6, 3, -0.2, 0, Math.PI*2); g.fill();
 
     // Face shape (left profile)
     const fGr = hg(cx-14, cy, 18, [0,C.skinLight],[1,C.skinMid]);
@@ -223,22 +143,6 @@ function headLeft(cx, cy) {
     g.bezierCurveTo(cx+5, cy+18, cx+5, cy-22, cx, cy-22);
     g.fill();
 
-    // Hair over face
-    g.fillStyle = hg(cx, cy, 8, [0,C.hairBase],[1,'rgba(44,26,8,0)']);
-    g.beginPath();
-    g.moveTo(cx, cy-22); g.bezierCurveTo(cx+6, cy-22, cx+6, cy+16, cx, cy+18);
-    g.lineTo(cx+2, cy+18); g.lineTo(cx+2, cy-22); g.fill();
-
-    // Ear
-    g.fillStyle = C.skinMid;
-    g.beginPath(); g.ellipse(cx+3, cy+2, 3.5, 5.5, 0.1, 0, Math.PI*2); g.fill();
-    g.strokeStyle = C.skinDark; g.lineWidth = 1;
-    g.beginPath(); g.ellipse(cx+3, cy+2, 1.8, 3.2, 0.1, 0, Math.PI*2); g.stroke();
-
-    // Eyebrow
-    g.strokeStyle = C.brow; g.lineWidth = 3; g.lineCap='round';
-    g.beginPath(); g.moveTo(cx-12, cy-10); g.quadraticCurveTo(cx-7, cy-14, cx-2, cy-12); g.stroke();
-
     // Eye
     g.fillStyle = C.eyeWhite;
     g.beginPath(); g.ellipse(cx-8, cy-4, 5, 4, 0, 0, Math.PI*2); g.fill();
@@ -246,22 +150,6 @@ function headLeft(cx, cy) {
     g.beginPath(); g.ellipse(cx-9, cy-4, 3.5, 3.5, 0, 0, Math.PI*2); g.fill();
     g.fillStyle = C.pupil;
     g.beginPath(); g.ellipse(cx-9.5, cy-4, 1.8, 1.8, 0, 0, Math.PI*2); g.fill();
-    g.fillStyle = 'rgba(255,255,255,0.8)';
-    g.beginPath(); g.ellipse(cx-10.5, cy-5.5, 1.2, 0.9, 0, 0, Math.PI*2); g.fill();
-    g.strokeStyle = 'rgba(0,0,10,0.7)'; g.lineWidth = 1.5;
-    g.beginPath(); g.moveTo(cx-13, cy-4); g.quadraticCurveTo(cx-8, cy-8.5, cx-3, cy-4); g.stroke();
-
-    // Nose profile
-    g.fillStyle = C.skin;
-    g.beginPath();
-    g.moveTo(cx-12, cy-1); g.bezierCurveTo(cx-17, cy+1, cx-17, cy+6, cx-14, cy+7);
-    g.lineTo(cx-12, cy+5); g.bezierCurveTo(cx-14, cy+4, cx-14, cy+1, cx-12, cy+1); g.fill();
-
-    // Mouth
-    g.strokeStyle = C.lip; g.lineWidth = 2.5; g.lineCap='round';
-    g.beginPath(); g.moveTo(cx-13, cy+10); g.quadraticCurveTo(cx-9, cy+14, cx-4, cy+12); g.stroke();
-    g.fillStyle = C.lip;
-    g.beginPath(); g.ellipse(cx-9, cy+12, 4, 2, 0, 0, Math.PI*2); g.fill();
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
@@ -269,6 +157,158 @@ function headLeft(cx, cy) {
 // ═══════════════════════════════════════════════════════════════════════════════
 function headRight(cx, cy) {
     g.save(); g.translate(cx*2, 0); g.scale(-1, 1); headLeft(cx, cy); g.restore();
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// HELMET – FRONT
+// ═══════════════════════════════════════════════════════════════════════════════
+function helmetFront(cx, cy) {
+    // Dome shell (covers hair and sides of head)
+    const shellGr = vg(cx, cy-32, 56, [0,C.helmLight],[0.4,C.helmShell],[1,C.helmShadow]);
+    g.fillStyle = shellGr;
+    g.beginPath();
+    g.moveTo(cx-20, cy+6);
+    g.bezierCurveTo(cx-24, cy-2, cx-22, cy-28, cx, cy-32);
+    g.bezierCurveTo(cx+22, cy-28, cx+24, cy-2, cx+20, cy+6);
+    g.bezierCurveTo(cx+18, cy+18, cx-18, cy+18, cx-20, cy+6);
+    g.fill();
+
+    // Visor – dark tinted glass window
+    const visorGr = rg(cx, cy-5, 18, [0,'rgba(20,60,120,0.25)'],[0.5,'rgba(8,20,50,0.88)'],[1,'rgba(0,2,12,0.97)']);
+    g.fillStyle = visorGr;
+    g.beginPath();
+    g.roundRect(cx-14, cy-19, 28, 24, 11);
+    g.fill();
+
+    // Visor blue reflection (top-left)
+    g.fillStyle = 'rgba(80,160,255,0.30)';
+    g.beginPath(); g.ellipse(cx-5, cy-14, 9, 4.5, -0.3, 0, Math.PI*2); g.fill();
+    // Visor white reflection (bottom-right)
+    g.fillStyle = 'rgba(255,255,255,0.13)';
+    g.beginPath(); g.ellipse(cx+4, cy-7, 6, 3.5, 0.2, 0, Math.PI*2); g.fill();
+
+    // Visor rim glow
+    g.strokeStyle = C.suitAccent; g.lineWidth = 1.8;
+    g.beginPath(); g.roundRect(cx-14, cy-19, 28, 24, 11); g.stroke();
+
+    // Dome highlight (top)
+    g.fillStyle = 'rgba(255,255,255,0.34)';
+    g.beginPath(); g.ellipse(cx-3, cy-26, 11, 5, -0.15, 0, Math.PI*2); g.fill();
+
+    // Side tech modules
+    g.fillStyle = C.helmDark;
+    g.beginPath(); g.roundRect(cx-24, cy-5, 7, 13, 2); g.fill();
+    g.beginPath(); g.roundRect(cx+17, cy-5, 7, 13, 2); g.fill();
+    g.fillStyle = C.suitAccent;
+    g.beginPath(); g.roundRect(cx-23, cy-2, 4, 3, 1); g.fill();
+    g.beginPath(); g.roundRect(cx+19, cy-2, 4, 3, 1); g.fill();
+    // Small LED dots
+    g.fillStyle = '#80FF80';
+    g.beginPath(); g.ellipse(cx-22, cy+4, 1.5, 1.5, 0, 0, Math.PI*2); g.fill();
+    g.beginPath(); g.ellipse(cx+22, cy+4, 1.5, 1.5, 0, 0, Math.PI*2); g.fill();
+
+    // Neck seal ring
+    g.fillStyle = C.neckRing;
+    g.beginPath(); g.roundRect(cx-13, cy+16, 26, 9, 3); g.fill();
+    g.strokeStyle = C.suitAccent2; g.lineWidth = 1;
+    g.beginPath(); g.roundRect(cx-13, cy+16, 26, 9, 3); g.stroke();
+    g.strokeStyle = C.suitAccent; g.lineWidth = 1.5;
+    g.beginPath(); g.moveTo(cx-13, cy+20); g.lineTo(cx+13, cy+20); g.stroke();
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// HELMET – BACK
+// ═══════════════════════════════════════════════════════════════════════════════
+function helmetBack(cx, cy) {
+    // Dome shell (back – slightly darker)
+    const shellGr = vg(cx, cy-32, 56, [0,C.helmShell],[0.45,C.helmShadow],[1,C.helmDark]);
+    g.fillStyle = shellGr;
+    g.beginPath();
+    g.moveTo(cx-20, cy+6);
+    g.bezierCurveTo(cx-24, cy-2, cx-22, cy-28, cx, cy-32);
+    g.bezierCurveTo(cx+22, cy-28, cx+24, cy-2, cx+20, cy+6);
+    g.bezierCurveTo(cx+18, cy+18, cx-18, cy+18, cx-20, cy+6);
+    g.fill();
+
+    // Back life-support panel
+    g.fillStyle = C.helmDark;
+    g.beginPath(); g.roundRect(cx-10, cy-24, 20, 24, 4); g.fill();
+    g.strokeStyle = C.suitAccent2; g.lineWidth = 1;
+    g.beginPath(); g.roundRect(cx-10, cy-24, 20, 24, 4); g.stroke();
+    // Vent grills
+    g.strokeStyle = C.suitAccent; g.lineWidth = 1.2;
+    for (let i = 0; i < 4; i++) {
+        g.beginPath(); g.moveTo(cx-8, cy-21+i*5); g.lineTo(cx+8, cy-21+i*5); g.stroke();
+    }
+    // LED indicator
+    g.fillStyle = '#80FF80';
+    g.beginPath(); g.ellipse(cx, cy-5, 2, 2, 0, 0, Math.PI*2); g.fill();
+
+    // Dome highlight
+    g.fillStyle = 'rgba(255,255,255,0.22)';
+    g.beginPath(); g.ellipse(cx-3, cy-26, 10, 4.5, -0.15, 0, Math.PI*2); g.fill();
+
+    // Neck seal ring
+    g.fillStyle = C.neckRing;
+    g.beginPath(); g.roundRect(cx-13, cy+16, 26, 9, 3); g.fill();
+    g.strokeStyle = C.suitAccent2; g.lineWidth = 1;
+    g.beginPath(); g.roundRect(cx-13, cy+16, 26, 9, 3); g.stroke();
+    g.strokeStyle = C.suitAccent; g.lineWidth = 1.5;
+    g.beginPath(); g.moveTo(cx-13, cy+20); g.lineTo(cx+13, cy+20); g.stroke();
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// HELMET – LEFT PROFILE
+// ═══════════════════════════════════════════════════════════════════════════════
+function helmetLeft(cx, cy) {
+    // Profile dome shell (left-facing: face points left, back of head right)
+    const shellGr = hg(cx-22, cy, 44, [0,C.helmLight],[0.65,C.helmShell],[1,C.helmShadow]);
+    g.fillStyle = shellGr;
+    g.beginPath();
+    g.ellipse(cx+2, cy-6, 23, 27, 0, 0, Math.PI*2);
+    g.fill();
+
+    // Visor (left side – visor faces left)
+    const visorGr = rg(cx-10, cy-6, 18, [0,'rgba(20,60,120,0.3)'],[0.7,'rgba(5,12,35,0.93)']);
+    g.fillStyle = visorGr;
+    g.beginPath();
+    g.roundRect(cx-20, cy-17, 17, 24, 9);
+    g.fill();
+
+    // Visor reflections
+    g.fillStyle = 'rgba(80,160,255,0.27)';
+    g.beginPath(); g.ellipse(cx-14, cy-12, 6, 4, -0.2, 0, Math.PI*2); g.fill();
+    g.fillStyle = 'rgba(255,255,255,0.12)';
+    g.beginPath(); g.ellipse(cx-12, cy-5, 4, 3, 0.1, 0, Math.PI*2); g.fill();
+
+    // Visor rim
+    g.strokeStyle = C.suitAccent; g.lineWidth = 1.6;
+    g.beginPath(); g.roundRect(cx-20, cy-17, 17, 24, 9); g.stroke();
+
+    // Back panel / life support (right side of profile)
+    g.fillStyle = C.helmDark;
+    g.beginPath(); g.roundRect(cx+14, cy-18, 11, 22, 3); g.fill();
+    g.fillStyle = C.suitAccent;
+    g.beginPath(); g.roundRect(cx+15, cy-14, 3, 5, 1); g.fill();
+    g.fillStyle = '#80FF80';
+    g.beginPath(); g.ellipse(cx+19, cy-5, 1.5, 1.5, 0, 0, Math.PI*2); g.fill();
+
+    // Top highlight
+    g.fillStyle = 'rgba(255,255,255,0.32)';
+    g.beginPath(); g.ellipse(cx, cy-26, 10, 4.5, -0.1, 0, Math.PI*2); g.fill();
+
+    // Neck seal ring
+    g.fillStyle = C.neckRing;
+    g.beginPath(); g.roundRect(cx-12, cy+16, 22, 9, 3); g.fill();
+    g.strokeStyle = C.suitAccent; g.lineWidth = 1;
+    g.beginPath(); g.moveTo(cx-12, cy+20); g.lineTo(cx+10, cy+20); g.stroke();
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// HELMET – RIGHT PROFILE (mirror of left)
+// ═══════════════════════════════════════════════════════════════════════════════
+function helmetRight(cx, cy) {
+    g.save(); g.translate(cx*2, 0); g.scale(-1, 1); helmetLeft(cx, cy); g.restore();
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
@@ -290,11 +330,9 @@ function neck(cx, ny, side=false) {
 function torsoFront(cx, ty, aLY, aRY) {
     const tw=38, th=38, tx=cx-tw/2;
 
-    // Shadow under torso
     g.fillStyle = 'rgba(0,0,20,0.15)';
     g.beginPath(); g.ellipse(cx, ty+th+2, tw/2+2, 5, 0, 0, Math.PI*2); g.fill();
 
-    // Suit body
     const bodyGr = hg(tx, ty, tw, [0,C.suitLight],[0.5,C.suit1],[1,C.suit3]);
     g.fillStyle = bodyGr;
     g.beginPath();
@@ -304,43 +342,35 @@ function torsoFront(cx, ty, aLY, aRY) {
     g.bezierCurveTo(tx-4, ty+th, tx-2, ty, tx+6, ty);
     g.fill();
 
-    // Inner shadow sides
     g.fillStyle = hg(tx, ty, 8, [0,'rgba(0,0,20,0.25)'],[1,'rgba(0,0,0,0)']);
     g.fillRect(tx, ty, 8, th);
     g.fillStyle = hg(tx+tw-8, ty, 8, [0,'rgba(0,0,0,0)'],[1,'rgba(0,0,20,0.25)']);
     g.fillRect(tx+tw-8, ty, 8, th);
 
-    // Suit highlight
     g.fillStyle = hg(tx+2, ty, 8, [0,C.suitSheen],[1,'rgba(0,0,0,0)']);
     g.beginPath(); g.roundRect(tx+2, ty+2, 6, th-4, 2); g.fill();
 
-    // Chest panel
     g.fillStyle = C.suit3;
     g.beginPath(); g.roundRect(cx-12, ty+4, 24, 18, 3); g.fill();
     g.strokeStyle = C.suitAccent2; g.lineWidth = 1;
     g.beginPath(); g.roundRect(cx-12, ty+4, 24, 18, 3); g.stroke();
 
-    // Centre accent stripe
     g.fillStyle = vg(cx-2, ty, th, [0,C.suitAccent],[1,C.suitAccent2]);
     g.beginPath(); g.roundRect(cx-2, ty+6, 4, th-10, 2); g.fill();
 
-    // TI logo
     g.fillStyle = C.gold;
     g.font = 'bold 9px sans-serif'; g.textAlign='center'; g.textBaseline='middle';
     g.fillText('TI', cx, ty+13);
 
-    // Belt
     const bGr = hg(tx, ty+th, tw+4, [0,C.grey1],[0.5,C.grey2],[1,C.grey1]);
     g.fillStyle = bGr; g.beginPath(); g.roundRect(tx-2, ty+th, tw+4, 7, 2); g.fill();
     g.fillStyle = C.goldLight; g.beginPath(); g.roundRect(cx-5, ty+th+1, 10, 5, 2); g.fill();
     g.fillStyle = C.goldDark; g.beginPath(); g.roundRect(cx-3, ty+th+2, 6, 3, 1); g.fill();
 
-    // Collar
     g.fillStyle = C.suit3; g.beginPath(); g.roundRect(cx-9, ty-5, 18, 8, 4); g.fill();
     g.strokeStyle = C.suitAccent2; g.lineWidth = 1;
     g.beginPath(); g.roundRect(cx-9, ty-5, 18, 8, 4); g.stroke();
 
-    // ── Arms ─────────────────────────────────────────────────────────────────
     drawArmFront(tx-14, ty+aLY, false);
     drawArmFront(tx+tw+2, ty+aRY, true);
 }
@@ -350,15 +380,12 @@ function drawArmFront(ax, ay, right) {
     const gr = hg(ax, ay, aw, right?[0,C.suitLight]:[0,C.suit3], right?[1,C.suit3]:[1,C.suitLight]);
     g.fillStyle = vg(ax, ay, ah, [0,C.suit1],[0.6,C.suit2],[1,C.suit3]);
     g.beginPath(); g.roundRect(ax, ay, aw, ah, 5); g.fill();
-    g.fillStyle = gr; g.fillRect(ax, ay, aw, ah); // tint
-    // Cuff
+    g.fillStyle = gr; g.fillRect(ax, ay, aw, ah);
     g.fillStyle = C.grey2; g.beginPath(); g.roundRect(ax-1, ay+ah-10, aw+2, 6, 2); g.fill();
     g.strokeStyle = C.suitAccent2; g.lineWidth = 1;
     g.beginPath(); g.moveTo(ax, ay+ah-6); g.lineTo(ax+aw, ay+ah-6); g.stroke();
-    // Hand
     const hGr2 = vg(ax-1, ay+ah-4, 16, [0,C.skin],[1,C.skinDark]);
     g.fillStyle = hGr2; g.beginPath(); g.ellipse(ax+aw/2, ay+ah+6, 7, 9, 0, 0, Math.PI*2); g.fill();
-    // Finger lines
     g.strokeStyle = C.skinDark; g.lineWidth = 1;
     [-2,0,2].forEach(dx => {
         g.beginPath(); g.moveTo(ax+aw/2+dx, ay+ah+2); g.lineTo(ax+aw/2+dx, ay+ah+14); g.stroke();
@@ -379,23 +406,18 @@ function torsoBack(cx, ty, aLY, aRY) {
     g.bezierCurveTo(tx-4, ty+th, tx-2, ty, tx+6, ty);
     g.fill();
 
-    // Backpack
     const pkGr = vg(cx-13, ty+2, 28, [0,C.packLight],[0.4,C.packMid],[1,C.packBase]);
     g.fillStyle = pkGr; g.beginPath(); g.roundRect(cx-13, ty+2, 26, 28, 4); g.fill();
     g.strokeStyle = C.suitAccent2; g.lineWidth = 1;
     g.beginPath(); g.roundRect(cx-13, ty+2, 26, 28, 4); g.stroke();
-    // Pack pockets
     g.fillStyle = C.packBase; g.beginPath(); g.roundRect(cx-11, ty+4, 22, 10, 2); g.fill();
     g.fillStyle = C.packMid; g.beginPath(); g.roundRect(cx-10, ty+5, 20, 8, 2); g.fill();
     g.fillStyle = C.goldLight; g.beginPath(); g.roundRect(cx-13, ty+8, 4, 8, 2); g.fill();
     g.beginPath(); g.roundRect(cx+9, ty+8, 4, 8, 2); g.fill();
-    // Centre stripe
     g.fillStyle = vg(cx-2, ty, th, [0,C.suitAccent],[1,C.suitAccent2]);
     g.beginPath(); g.roundRect(cx-2, ty+2, 4, 28, 2); g.fill();
-    // Belt
     g.fillStyle = C.grey2; g.beginPath(); g.roundRect(tx-2, ty+th, tw+4, 7, 2); g.fill();
     g.fillStyle = C.gold; g.beginPath(); g.roundRect(cx-5, ty+th+1, 10, 5, 2); g.fill();
-    // Collar
     g.fillStyle = C.suit3; g.beginPath(); g.roundRect(cx-9, ty-5, 18, 8, 4); g.fill();
 
     drawArmFront(tx-14, ty+aLY, true);
@@ -411,30 +433,23 @@ function torsoSide(cx, ty, facingRight, frontArmY) {
                                    facingRight?[1,C.suit3]:[1,C.suitLight]);
     g.fillStyle = bodyGr; g.beginPath(); g.roundRect(tx, ty, tw, th, 4); g.fill();
 
-    // Accent stripe
     g.fillStyle = vg(facingRight?tx+8:tx+2, ty, th, [0,C.suitAccent],[1,C.suitAccent2]);
     g.beginPath(); g.roundRect(facingRight?tx+8:tx+2, ty+4, 4, th-8, 2); g.fill();
 
-    // Pack on back side
     const bpX = facingRight ? tx-10 : tx+tw-2;
     g.fillStyle = C.packMid; g.beginPath(); g.roundRect(bpX, ty+4, 12, 24, 3); g.fill();
     g.fillStyle = C.packBase; g.beginPath(); g.roundRect(bpX+1, ty+5, 10, 8, 2); g.fill();
     g.fillStyle = C.goldLight; g.beginPath(); g.roundRect(bpX+1, ty+9, 3, 6, 1); g.fill();
 
-    // Chest panel visible
     g.fillStyle = C.suit3;
     g.beginPath(); g.roundRect(facingRight?tx+2:tx+4, ty+5, 10, 14, 2); g.fill();
 
-    // Belt
     g.fillStyle = C.grey2; g.beginPath(); g.roundRect(tx-1, ty+th, tw+2, 7, 2); g.fill();
-    // Collar
     g.fillStyle = C.suit3;
     g.beginPath(); g.roundRect(facingRight?tx+1:tx-5, ty-5, 16, 8, 4); g.fill();
 
-    // Front arm
     const fax = facingRight ? tx+tw+1 : tx-13;
     drawArmFront(fax, ty+frontArmY, facingRight);
-    // Back arm (tucked)
     const bax = facingRight ? tx-9 : tx+tw-3;
     g.fillStyle = C.suit2; g.beginPath(); g.roundRect(bax, ty+4, 9, 26, 4); g.fill();
     g.fillStyle = C.skin; g.beginPath(); g.ellipse(bax+4.5, ty+34, 6, 8, 0, 0, Math.PI*2); g.fill();
@@ -455,15 +470,12 @@ function _leg(lx, ly, left) {
     g.fillStyle = vg(lx, ly, 30, [0,C.pant],[0.5,C.pantDark],[1,C.pant]);
     g.beginPath(); g.roundRect(lx, ly, 18, 30, 4); g.fill();
     g.fillStyle = gr; g.fillRect(lx+1, ly+1, 16, 28);
-    // Knee highlight
     g.fillStyle = 'rgba(255,255,255,0.07)';
     g.beginPath(); g.ellipse(lx+9, ly+16, 7, 5, 0, 0, Math.PI*2); g.fill();
-    // Boot
     const bGr = hg(lx-2, ly+30, 22, left?[0,C.bootLight]:[0,C.bootBase],
                                      left?[1,C.bootBase]:[1,C.bootLight]);
     g.fillStyle = bGr; g.beginPath(); g.roundRect(lx-2, ly+28, 22, 10, 3); g.fill();
     g.fillStyle = C.bootLight; g.beginPath(); g.roundRect(lx, ly+29, 18, 5, 2); g.fill();
-    // Boot toe
     const toeSide = left ? lx-2 : lx+14;
     g.fillStyle = C.grey1; g.beginPath(); g.roundRect(toeSide, ly+34, 8, 4, 2); g.fill();
 }
@@ -474,8 +486,8 @@ function _leg(lx, ly, left) {
 function legsSide(cx, ly, phase, facingRight) {
     const off = [[0,0],[-6,4],[0,0],[4,-6]];
     const [fo, bo] = off[phase];
-    _legSide(cx-9, ly+bo, false, facingRight); // back leg first
-    _legSide(cx-9, ly+fo, true, facingRight);  // front leg on top
+    _legSide(cx-9, ly+bo, false, facingRight);
+    _legSide(cx-9, ly+fo, true, facingRight);
 }
 
 function _legSide(lx, ly, front, facingRight) {
@@ -483,7 +495,6 @@ function _legSide(lx, ly, front, facingRight) {
                                   front?[1,C.pantDark]:[1,C.pant]);
     g.beginPath(); g.roundRect(lx, ly, 18, 30, 4); g.fill();
     if(front){ g.fillStyle='rgba(255,255,255,0.07)'; g.beginPath(); g.ellipse(lx+9,ly+16,6,4,0,0,Math.PI*2); g.fill(); }
-    // Boot
     const bGr = front ? C.bootMid : C.bootBase;
     g.fillStyle = bGr; g.beginPath(); g.roundRect(lx-2, ly+28, 22, 10, 3); g.fill();
     g.fillStyle = front ? C.bootLight : C.bootMid;
@@ -509,6 +520,7 @@ for(let f=0;f<4;f++) frame(f,0,()=>{
     torsoFront(CX, TORSO_Y, ARM[f].l, ARM[f].r);
     neck(CX, NECK_Y);
     headFront(CX, HEAD_Y+12);
+    helmetFront(CX, HEAD_Y+12);
 });
 
 // ── Row 1: walk-left ──────────────────────────────────────────────────────────
@@ -518,6 +530,7 @@ for(let f=0;f<4;f++) frame(f,1,()=>{
     torsoSide(CX, TORSO_Y, false, ARM[f].r);
     neck(CX-4, NECK_Y, true);
     headLeft(CX+2, HEAD_Y+12);
+    helmetLeft(CX+2, HEAD_Y+12);
 });
 
 // ── Row 2: walk-right ─────────────────────────────────────────────────────────
@@ -527,6 +540,7 @@ for(let f=0;f<4;f++) frame(f,2,()=>{
     torsoSide(CX, TORSO_Y, true, ARM[f].l);
     neck(CX+4, NECK_Y, true);
     headRight(CX-2, HEAD_Y+12);
+    helmetRight(CX-2, HEAD_Y+12);
 });
 
 // ── Row 3: walk-up ────────────────────────────────────────────────────────────
@@ -536,6 +550,7 @@ for(let f=0;f<4;f++) frame(f,3,()=>{
     torsoBack(CX, TORSO_Y, ARM[f].l, ARM[f].r);
     neck(CX, NECK_Y);
     headBack(CX, HEAD_Y+12);
+    helmetBack(CX, HEAD_Y+12);
 });
 
 // ── Row 4: idle (copy frame 0 col 0) ─────────────────────────────────────────
