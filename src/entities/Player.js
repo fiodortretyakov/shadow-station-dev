@@ -13,6 +13,7 @@ export class Player {
         this.position = position;
         this.entity = null;
         this.heldObject = null;
+        this.facingAngle = Math.PI / 2; // default: facing down
     }
 
     /**

@@ -5,6 +5,7 @@ import { GameMap } from './world/GameMap.js';
 import { Player } from './entities/Player.js';
 import { InputHandler } from './controllers/InputHandler.js';
 import { SoundLoader } from './loaders/SoundLoader.js';
+import { LightingSystem } from './world/LightingSystem.js';
 
 /**
  * Main game class that orchestrates all game systems
@@ -15,6 +16,7 @@ export class Game {
         this.player = null;
         this.map = null;
         this.inputHandler = null;
+        this.lighting = null;
     }
 
     /**
@@ -74,6 +76,18 @@ export class Game {
         // Setup input handling
         this.inputHandler = new InputHandler(this.k, this.player);
         this.inputHandler.setupControls();
+
+        // Setup dynamic lighting
+        this.lighting = new LightingSystem(this.k);
+        this.lighting.init();
+
+        // Feed player position + facing angle to lighting every frame
+        this.k.onUpdate(() => {
+            if (this.player?.entity) {
+                this.lighting.updatePlayerPos(this.player.entity.pos);
+                this.lighting.setFacing(this.player.facingAngle);
+            }
+        });
     }
 
     /**

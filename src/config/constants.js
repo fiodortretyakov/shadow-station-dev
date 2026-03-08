@@ -3,7 +3,6 @@
  */
 
 export const GAME_CONFIG = {
-    pixelDensity: 2,
     debug: false,
 };
 

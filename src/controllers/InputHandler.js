@@ -67,6 +67,9 @@ export class InputHandler {
             if (dx !== 0 || dy !== 0) {
                 player.move(dx * speed, dy * speed);
 
+                // Update facing angle for lighting flashlight direction
+                player.facingAngle = Math.atan2(dy, dx);
+
                 // Horizontal takes priority; fall back to vertical
                 if (Math.abs(dx) >= Math.abs(dy)) {
                     player.setFlip(false);
