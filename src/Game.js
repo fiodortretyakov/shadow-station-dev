@@ -49,30 +49,18 @@ export class Game {
 
         // Create the map
         const mapLayout = [
-            'wwwwwwwwwwwwwwww',
-            'w..M.v..m.v.C..w',
-            'w...C..........w',
-            'w..m.v..M.v....w',
-            't...h...h...h..t',
-            'w..............w',
-            'w..C...........w',
-            'w..m.v..m.v....w',
-            'w............M.w',
-            't...h...h...h..t',
-            'w..M...........w',
-            'w..............w',
-            'w.......d......w',
-            'wwwwwwwwwwwwwwww',
+            'wwwwwwwwww',
+            'w........w',
+            'w........w',
+            'w........w',
+            'w........w',
+            'w........w',
+            'w........w',
+            'w........w',
+            'w........w',
+            'wwwwwwwwww',
         ];
         try {
-            // Add a base background floor to cover any gaps
-            this.k.add([
-                this.k.rect(1280, 1280),
-                this.k.pos(0, 0),
-                this.k.color(10, 10, 20),
-                this.k.z(-10),
-            ]);
-
             this.map = new GameMap(this.k, mapLayout);
             this.map.create();
 
