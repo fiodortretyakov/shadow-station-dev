@@ -12,6 +12,12 @@ const createMockKaplay = () => ({
     onKeyDown: vi.fn(),
     onKeyRelease: vi.fn(),
     isKeyDown: vi.fn(() => false),
+    onKeyPress: vi.fn(),
+    onGamepadStick: vi.fn(),
+    onGamepadButtonDown: vi.fn(),
+    onGamepadButtonRelease: vi.fn(),
+    onGamepadButtonPress: vi.fn(),
+    getGamepadStick: vi.fn(() => ({ x: 0, y: 0 })),
 });
 
 describe('InputHandler', () => {
@@ -34,39 +40,43 @@ describe('InputHandler', () => {
     });
 
     describe('setupControls', () => {
-        it('should call setupKeyboardControls', () => {
-            const spy = vi.spyOn(inputHandler, 'setupKeyboardControls');
+        it('should call setupKeyboardControls and setupGamepadControls', () => {
+            const spyKbd = vi.spyOn(inputHandler, 'setupKeyboardControls');
+            const spyPad = vi.spyOn(inputHandler, 'setupGamepadControls');
             inputHandler.setupControls();
-            
-            expect(spy).toHaveBeenCalled();
+
+            expect(spyKbd).toHaveBeenCalled();
+            expect(spyPad).toHaveBeenCalled();
         });
     });
 
     describe('setupKeyboardControls', () => {
         it('should register all directional key handlers', () => {
             inputHandler.setupKeyboardControls();
-            
-            expect(mockK.onKeyDown).toHaveBeenCalledWith("left", expect.any(Function));
-            expect(mockK.onKeyDown).toHaveBeenCalledWith("right", expect.any(Function));
-            expect(mockK.onKeyDown).toHaveBeenCalledWith("up", expect.any(Function));
-            expect(mockK.onKeyDown).toHaveBeenCalledWith("down", expect.any(Function));
+
+            expect(mockK.onKeyDown).toHaveBeenCalledWith(['left', 'a'], expect.any(Function));
+            expect(mockK.onKeyDown).toHaveBeenCalledWith(['right', 'd'], expect.any(Function));
+            expect(mockK.onKeyDown).toHaveBeenCalledWith(['up', 'w'], expect.any(Function));
+            expect(mockK.onKeyDown).toHaveBeenCalledWith(['down', 's'], expect.any(Function));
         });
 
         it('should register key release handler', () => {
             inputHandler.setupKeyboardControls();
-            
+
             expect(mockK.onKeyRelease).toHaveBeenCalledWith(
-                ["left", "right", "up", "down"],
-                expect.any(Function)
+                ['left', 'right', 'up', 'down', 'a', 's', 'd', 'w'],
+                expect.any(Function),
             );
         });
 
         it('should handle left key correctly', () => {
             inputHandler.setupKeyboardControls();
-            
-            const leftHandler = mockK.onKeyDown.mock.calls.find(call => call[0] === "left")[1];
+
+            const leftHandler = mockK.onKeyDown.mock.calls.find(
+                (call) => JSON.stringify(call[0]) === JSON.stringify(['left', 'a']),
+            )[1];
             leftHandler();
-            
+
             expect(mockPlayer.move).toHaveBeenCalledWith(-PLAYER_CONFIG.speed, 0);
             expect(mockPlayer.setFlip).toHaveBeenCalledWith(true);
             expect(mockPlayer.playAnimation).toHaveBeenCalledWith(ANIMATIONS.walkRight);
@@ -74,10 +84,12 @@ describe('InputHandler', () => {
 
         it('should handle right key correctly', () => {
             inputHandler.setupKeyboardControls();
-            
-            const rightHandler = mockK.onKeyDown.mock.calls.find(call => call[0] === "right")[1];
+
+            const rightHandler = mockK.onKeyDown.mock.calls.find(
+                (call) => JSON.stringify(call[0]) === JSON.stringify(['right', 'd']),
+            )[1];
             rightHandler();
-            
+
             expect(mockPlayer.move).toHaveBeenCalledWith(PLAYER_CONFIG.speed, 0);
             expect(mockPlayer.setFlip).toHaveBeenCalledWith(false);
             expect(mockPlayer.playAnimation).toHaveBeenCalledWith(ANIMATIONS.walkRight);
@@ -85,20 +97,24 @@ describe('InputHandler', () => {
 
         it('should handle up key correctly', () => {
             inputHandler.setupKeyboardControls();
-            
-            const upHandler = mockK.onKeyDown.mock.calls.find(call => call[0] === "up")[1];
+
+            const upHandler = mockK.onKeyDown.mock.calls.find(
+                (call) => JSON.stringify(call[0]) === JSON.stringify(['up', 'w']),
+            )[1];
             upHandler();
-            
+
             expect(mockPlayer.move).toHaveBeenCalledWith(0, -PLAYER_CONFIG.speed);
             expect(mockPlayer.playAnimation).toHaveBeenCalledWith(ANIMATIONS.walkUp);
         });
 
         it('should handle down key correctly', () => {
             inputHandler.setupKeyboardControls();
-            
-            const downHandler = mockK.onKeyDown.mock.calls.find(call => call[0] === "down")[1];
+
+            const downHandler = mockK.onKeyDown.mock.calls.find(
+                (call) => JSON.stringify(call[0]) === JSON.stringify(['down', 's']),
+            )[1];
             downHandler();
-            
+
             expect(mockPlayer.move).toHaveBeenCalledWith(0, PLAYER_CONFIG.speed);
             expect(mockPlayer.playAnimation).toHaveBeenCalledWith(ANIMATIONS.walkDown);
         });
@@ -106,20 +122,20 @@ describe('InputHandler', () => {
         it('should play idle animation when no keys are pressed', () => {
             inputHandler.setupKeyboardControls();
             mockK.isKeyDown.mockReturnValue(false);
-            
+
             const releaseHandler = mockK.onKeyRelease.mock.calls[0][1];
             releaseHandler();
-            
+
             expect(mockPlayer.playAnimation).toHaveBeenCalledWith(ANIMATIONS.idleDown);
         });
 
         it('should not play idle animation when keys are still pressed', () => {
             inputHandler.setupKeyboardControls();
             mockK.isKeyDown.mockReturnValue(true);
-            
+
             const releaseHandler = mockK.onKeyRelease.mock.calls[0][1];
             releaseHandler();
-            
+
             expect(mockPlayer.playAnimation).not.toHaveBeenCalledWith(ANIMATIONS.idleDown);
         });
     });

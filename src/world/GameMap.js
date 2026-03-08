@@ -1,4 +1,5 @@
 import { TILE_CONFIG } from '../config/constants.js';
+import { Prop } from '../entities/Prop.js';
 
 /**
  * Manages the game level/map
@@ -22,57 +23,59 @@ export class GameMap {
         const { k, layout } = this;
         const config = TILE_CONFIG;
 
+        console.log('Creating map with layout rows:', layout.length);
+        console.log('Map layout first row:', layout[0]);
+        console.log('Tile config:', config);
+
         this.map = k.addLevel(layout, {
             tileWidth: config.width,
             tileHeight: config.height,
             tiles: {
-                "w": () => [
-                    k.sprite("wall-plain"),
+                w: () => [
+                    k.sprite('wall-plain'),
                     k.scale(config.wallScale),
                     k.area(),
-                    k.body({ isStatic: true })
+                    k.body({ isStatic: true }),
                 ],
-                "t": () => [
-                    k.sprite("wall-tech"),
+                t: () => [
+                    k.sprite('wall-tech'),
                     k.scale(config.wallScale),
                     k.area(),
-                    k.body({ isStatic: true })
+                    k.body({ isStatic: true }),
                 ],
-                "m": () => [
-                    k.sprite("monitor-panel"),
+                m: () => [
+                    k.sprite('monitor-panel'),
                     k.scale(config.wallScale),
                     k.area(),
-                    k.body({ isStatic: true })
+                    k.body({ isStatic: true }),
                 ],
-                "v": () => [
-                    k.sprite("wall-vent"),
+                v: () => [
+                    k.sprite('wall-vent'),
                     k.scale(config.wallScale),
                     k.area(),
-                    k.body({ isStatic: true })
+                    k.body({ isStatic: true }),
                 ],
-                "d": () => [
-                    k.sprite("door-locked"),
+                d: () => [
+                    k.sprite('door-locked'),
                     k.scale(config.wallScale),
                     k.area(),
-                    k.body({ isStatic: true })
+                    k.body({ isStatic: true }),
                 ],
-                "h": () => [
-                    k.sprite("hazard-strip"),
-                    k.scale(config.wallScale)
-                ],
-                ".": () => [
-                    k.sprite("floor-solid"),
-                    k.scale(config.floorScale)
-                ],
-                "p": () => [
-                    k.sprite("floor-pattern"),
-                    k.scale(config.floorScale)
-                ],
-                " ": () => [
-                    k.sprite("space-void"),
-                    k.scale(config.floorScale)
-                ],
-            }
+                h: () => [k.sprite('hazard-strip'), k.scale(config.wallScale)],
+                '.': () => [k.sprite('floor-solid'), k.scale(config.floorScale)],
+                p: () => [k.sprite('floor-pattern'), k.scale(config.floorScale)],
+                ' ': () => [k.sprite('space-void'), k.scale(config.floorScale)],
+                C: (pos) => {
+                    const prop = new Prop(k, 'chair', pos, { pickable: true });
+                    prop.create();
+                    return [];
+                },
+                M: (pos) => {
+                    const prop = new Prop(k, 'mug', pos, { pickable: true });
+                    prop.create();
+                    return [];
+                },
+            },
         });
 
         return this.map;

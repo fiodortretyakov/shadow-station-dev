@@ -15,9 +15,9 @@ describe('SpriteLoader', () => {
             const spyFloor = vi.spyOn(SpriteLoader, 'loadFloor');
             const spyCharacter = vi.spyOn(SpriteLoader, 'loadCharacter');
             const spyProps = vi.spyOn(SpriteLoader, 'loadProps');
-            
+
             SpriteLoader.loadAllSprites(mockK);
-            
+
             expect(spyWalls).toHaveBeenCalledWith(mockK);
             expect(spyFloor).toHaveBeenCalledWith(mockK);
             expect(spyCharacter).toHaveBeenCalledWith(mockK);
@@ -29,29 +29,29 @@ describe('SpriteLoader', () => {
         it('should load wall sprite atlas', () => {
             const mockK = createMockKaplay();
             SpriteLoader.loadWalls(mockK);
-            
+
             expect(mockK.loadSpriteAtlas).toHaveBeenCalledWith(
                 SPRITE_PATHS.walls,
                 expect.objectContaining({
-                    "wall0": expect.any(Object),
-                    "glass-panel": expect.any(Object),
-                })
+                    'wall-plain': expect.any(Object),
+                    'wall-tech': expect.any(Object),
+                    'monitor-panel': expect.any(Object),
+                }),
             );
         });
     });
 
     describe('loadFloor', () => {
-        it('should load floor sprite', () => {
+        it('should load floor sprite atlas', () => {
             const mockK = createMockKaplay();
             SpriteLoader.loadFloor(mockK);
-            
-            expect(mockK.loadSprite).toHaveBeenCalledWith(
-                "floor",
+
+            expect(mockK.loadSpriteAtlas).toHaveBeenCalledWith(
                 SPRITE_PATHS.floor,
                 expect.objectContaining({
-                    sliceX: 3,
-                    sliceY: 2,
-                })
+                    'floor-solid': expect.any(Object),
+                    'floor-pattern': expect.any(Object),
+                }),
             );
         });
     });
@@ -60,21 +60,21 @@ describe('SpriteLoader', () => {
         it('should load character sprite with animations', () => {
             const mockK = createMockKaplay();
             SpriteLoader.loadCharacter(mockK);
-            
+
             expect(mockK.loadSprite).toHaveBeenCalledWith(
-                "morgan",
+                'morgan',
                 SPRITE_PATHS.character,
                 expect.objectContaining({
-                    sliceX: 12,
-                    sliceY: 8,
+                    sliceX: 4,
+                    sliceY: 5,
                     anims: expect.objectContaining({
-                        "idle-down": expect.any(Number),
-                        "walk-down": expect.any(Object),
-                        "walk-left": expect.any(Object),
-                        "walk-right": expect.any(Object),
-                        "walk-up": expect.any(Object),
-                    })
-                })
+                        'idle-down': expect.any(Number),
+                        'walk-down': expect.any(Object),
+                        'walk-left': expect.any(Object),
+                        'walk-right': expect.any(Object),
+                        'walk-up': expect.any(Object),
+                    }),
+                }),
             );
         });
     });
@@ -83,16 +83,14 @@ describe('SpriteLoader', () => {
         it('should load prop atlas with all props', () => {
             const mockK = createMockKaplay();
             SpriteLoader.loadProps(mockK);
-            
+
             expect(mockK.loadSpriteAtlas).toHaveBeenCalledWith(
                 SPRITE_PATHS.atlas,
                 expect.objectContaining({
-                    "bed": expect.any(Object),
-                    "desk": expect.any(Object),
-                    "pc": expect.any(Object),
-                    "chair": expect.any(Object),
-                    "bookshelf": expect.any(Object),
-                })
+                    'door-locked': expect.any(Object),
+                    'door-open': expect.any(Object),
+                    'hazard-strip': expect.any(Object),
+                }),
             );
         });
     });

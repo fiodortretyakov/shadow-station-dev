@@ -9,7 +9,7 @@ export class SoundLoader {
      * @param {Object} k - Kaplay instance
      */
     static loadAllSounds(k) {
-        k.loadSound("music", SOUND_PATHS.music);
+        k.loadSound('music', SOUND_PATHS.music);
     }
 
     /**
@@ -17,9 +17,9 @@ export class SoundLoader {
      * @param {Object} k - Kaplay instance
      */
     static playMusic(k) {
-        return k.play("music", {
+        return k.play('music', {
             loop: true,
-            volume: 0.5
+            volume: 0.5,
         });
     }
 }

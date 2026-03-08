@@ -18,11 +18,7 @@ const createMockKaplay = () => ({
 describe('GameMap', () => {
     let mockK;
     let gameMap;
-    const testLayout = [
-        "wwww",
-        "w  w",
-        "wwww",
-    ];
+    const testLayout = ['wwww', 'w  w', 'wwww'];
 
     beforeEach(() => {
         mockK = createMockKaplay();
@@ -40,33 +36,39 @@ describe('GameMap', () => {
     describe('create', () => {
         it('should create level with correct layout', () => {
             gameMap.create();
-            
+
             expect(mockK.addLevel).toHaveBeenCalledWith(
                 testLayout,
                 expect.objectContaining({
                     tileWidth: TILE_CONFIG.width,
                     tileHeight: TILE_CONFIG.height,
-                })
+                }),
             );
         });
 
         it('should return the created map', () => {
             const map = gameMap.create();
-            
+
             expect(map).toBeDefined();
             expect(gameMap.map).toBe(map);
         });
 
         it('should have tile definitions', () => {
             gameMap.create();
-            
+
             const call = mockK.addLevel.mock.calls[0];
             const config = call[1];
-            
+
             expect(config.tiles).toBeDefined();
             expect(config.tiles.w).toBeDefined();
-            expect(config.tiles.g).toBeDefined();
+            expect(config.tiles.t).toBeDefined();
+            expect(config.tiles.m).toBeDefined();
+            expect(config.tiles.v).toBeDefined();
+            expect(config.tiles.d).toBeDefined();
+            expect(config.tiles.h).toBeDefined();
             expect(config.tiles['.']).toBeDefined();
+            expect(config.tiles.p).toBeDefined();
+            expect(config.tiles[' ']).toBeDefined();
         });
     });
 
@@ -74,13 +76,13 @@ describe('GameMap', () => {
         it('should return tile when map exists', () => {
             gameMap.create();
             const tile = gameMap.getTileAt(0, 0);
-            
+
             expect(tile).toBeDefined();
         });
 
         it('should return null when map is null', () => {
             const tile = gameMap.getTileAt(0, 0);
-            
+
             expect(tile).toBeNull();
         });
     });

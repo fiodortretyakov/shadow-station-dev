@@ -46,10 +46,10 @@ export class ErrorHandler {
      */
     static handle(error, showToUser = false) {
         console.error('[Game Error]', error);
-        
+
         if (showToUser) {
             // In a production game, this could show an in-game error message
-            alert(`An error occurred: ${error.message}`);
+            window.alert(`An error occurred: ${error.message}`);
         }
     }
 

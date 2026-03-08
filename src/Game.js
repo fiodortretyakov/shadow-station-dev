@@ -1,4 +1,4 @@
-import kaplay from "kaplay";
+import kaplay from 'kaplay';
 import { GAME_CONFIG } from './config/constants.js';
 import { SpriteLoader } from './loaders/SpriteLoader.js';
 import { GameMap } from './world/GameMap.js';
@@ -27,6 +27,8 @@ export class Game {
             background: [10, 10, 20],
         });
 
+        this.k.setGravity(0);
+
         // Load all sprites and sounds
         SpriteLoader.loadAllSprites(this.k);
         SoundLoader.loadAllSounds(this.k);
@@ -36,29 +38,33 @@ export class Game {
 
         // Create the map
         const mapLayout = [
-            "                    ",
-            "  wwwwwwwwwwwwwwww  ",
-            "  w..............w  ",
-            "  w..m.v..m.v....w  ",
-            "  w..............w  ",
-            "  t...h...h...h..t  ",
-            "  w..............w  ",
-            "  w..............w  ",
-            "  w..m.v..m.v....w  ",
-            "  w..............w  ",
-            "  t...h...h...h..t  ",
-            "  w..............w  ",
-            "  w..............w  ",
-            "  w.......d......w  ",
-            "  wwwwwwwwwwwwwwww  ",
-            "                    ",
+            '                    ',
+            '  wwwwwwwwwwwwwwww  ',
+            '  w..M.v..m.v.C..w  ',
+            '  w...C..........w  ',
+            '  w..m.v..M.v....w  ',
+            '  t...h...h...h..t  ',
+            '  w..............w  ',
+            '  w..C...........w  ',
+            '  w..m.v..m.v....w  ',
+            '  w............M.w  ',
+            '  t...h...h...h..t  ',
+            '  w..M...........w  ',
+            '  w..............w  ',
+            '  w.......d......w  ',
+            '  wwwwwwwwwwwwwwww  ',
+            '                    ',
         ];
-        this.map = new GameMap(this.k, mapLayout);
-        this.map.create();
+        try {
+            this.map = new GameMap(this.k, mapLayout);
+            this.map.create();
 
-        // Create the player
-        this.player = new Player(this.k, { x: 400, y: 400 });
-        this.player.create();
+            // Create the player
+            this.player = new Player(this.k, { x: 400, y: 400 });
+            this.player.create();
+        } catch (error) {
+            console.error('Initialization error:', error);
+        }
 
         // Setup input handling
         this.inputHandler = new InputHandler(this.k, this.player);

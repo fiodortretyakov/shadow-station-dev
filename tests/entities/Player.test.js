@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { Player } from '../../src/entities/Player.js';
-import { PLAYER_CONFIG, ANIMATIONS } from '../../src/config/constants.js';
+import { ANIMATIONS } from '../../src/config/constants.js';
 
 // Mock Kaplay
 const createMockKaplay = () => {
@@ -24,7 +24,7 @@ const createMockKaplay = () => {
         scale: vi.fn(),
         anchor: vi.fn(),
         setCamPos: vi.fn(),
-        Rect: vi.fn(function(offset, width, height) {
+        Rect: vi.fn(function (offset, width, height) {
             this.offset = offset;
             this.width = width;
             this.height = height;
@@ -58,7 +58,7 @@ describe('Player', () => {
     describe('create', () => {
         it('should create player entity with correct components', () => {
             player.create();
-            
+
             expect(mockK.add).toHaveBeenCalled();
             expect(player.entity).toBeDefined();
             expect(player.entity).not.toBeNull();
@@ -74,7 +74,7 @@ describe('Player', () => {
         it('should move entity when created', () => {
             player.create();
             player.move(10, 20);
-            
+
             expect(mockK.mockEntity.move).toHaveBeenCalledWith(10, 20);
         });
 
@@ -87,18 +87,18 @@ describe('Player', () => {
         it('should play animation if different from current', () => {
             player.create();
             mockK.mockEntity.curAnim.mockReturnValue('idle-down');
-            
+
             player.playAnimation(ANIMATIONS.walkDown);
-            
+
             expect(mockK.mockEntity.play).toHaveBeenCalledWith(ANIMATIONS.walkDown);
         });
 
         it('should not play animation if same as current', () => {
             player.create();
             mockK.mockEntity.curAnim.mockReturnValue('walk-down');
-            
+
             player.playAnimation(ANIMATIONS.walkDown);
-            
+
             expect(mockK.mockEntity.play).not.toHaveBeenCalled();
         });
 
@@ -110,10 +110,10 @@ describe('Player', () => {
     describe('setFlip', () => {
         it('should set flipX property', () => {
             player.create();
-            
+
             player.setFlip(true);
             expect(mockK.mockEntity.flipX).toBe(true);
-            
+
             player.setFlip(false);
             expect(mockK.mockEntity.flipX).toBe(false);
         });
@@ -127,7 +127,7 @@ describe('Player', () => {
         it('should return current animation', () => {
             player.create();
             mockK.mockEntity.curAnim.mockReturnValue('walk-up');
-            
+
             expect(player.getCurrentAnimation()).toBe('walk-up');
         });
 
@@ -139,7 +139,7 @@ describe('Player', () => {
     describe('getPosition', () => {
         it('should return entity position', () => {
             player.create();
-            
+
             const pos = player.getPosition();
             expect(pos).toEqual({ x: 192, y: 192 });
         });

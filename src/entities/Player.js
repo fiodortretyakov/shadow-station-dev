@@ -12,6 +12,7 @@ export class Player {
         this.k = k;
         this.position = position;
         this.entity = null;
+        this.heldObject = null;
     }
 
     /**
@@ -23,20 +24,20 @@ export class Player {
         const config = PLAYER_CONFIG;
 
         this.entity = k.add([
-            k.sprite("morgan", { anim: ANIMATIONS.idleDown }),
+            k.sprite('morgan', { anim: ANIMATIONS.idleDown }),
             k.pos(k.vec2(position.x, position.y)),
-            k.area({ 
+            k.area({
                 shape: new k.Rect(
                     k.vec2(config.collisionBox.offsetX, config.collisionBox.offsetY),
                     config.collisionBox.width,
-                    config.collisionBox.height
-                ) 
+                    config.collisionBox.height,
+                ),
             }),
             k.z(config.zIndex),
             k.body(),
             k.scale(config.scale),
-            k.anchor("center"),
-            "player",
+            k.anchor('center'),
+            'player',
         ]);
 
         this.setupCamera();
@@ -47,8 +48,9 @@ export class Player {
      * Setup camera to follow player
      */
     setupCamera() {
+        this.k.camPos(this.entity.pos);
         this.entity.onUpdate(() => {
-            this.k.setCamPos(this.entity.pos);
+            this.k.camPos(this.entity.pos);
         });
     }
 
@@ -96,5 +98,33 @@ export class Player {
      */
     getPosition() {
         return this.entity ? this.entity.pos : null;
+    }
+
+    /**
+     * Interact with nearby objects or held object
+     */
+    interact() {
+        if (this.heldObject) {
+            this.heldObject.interact(this);
+            return;
+        }
+
+        const { k, entity } = this;
+        // Find all props in range
+        const props = k.get('prop');
+        let closestProp = null;
+        let minDistance = 50; // Interaction range
+
+        props.forEach((prop) => {
+            const dist = entity.pos.dist(prop.pos);
+            if (dist < minDistance) {
+                minDistance = dist;
+                closestProp = prop;
+            }
+        });
+
+        if (closestProp && closestProp.propRef) {
+            closestProp.propRef.interact(this);
+        }
     }
 }
