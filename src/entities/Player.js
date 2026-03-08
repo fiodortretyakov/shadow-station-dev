@@ -28,7 +28,7 @@ export class Player {
             k.sprite('morgan', { anim: ANIMATIONS.idleDown }),
             k.pos(k.vec2(position.x, position.y)),
             k.area({
-                shape: new k.Rect(k.vec2(-14, 50), 28, 12),
+                shape: new k.Rect(k.vec2(-14, 96), 28, 16),
             }),
             k.z(config.zIndex),
             k.body(),

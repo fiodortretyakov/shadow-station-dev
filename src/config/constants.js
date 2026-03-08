@@ -8,7 +8,7 @@ export const GAME_CONFIG = {
 
 export const PLAYER_CONFIG = {
     speed: 256,
-    scale: 0.62,
+    scale: 0.48,
     zIndex: 10,
     collisionBox: {
         offsetX: 2,

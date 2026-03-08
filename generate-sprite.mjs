@@ -6,16 +6,19 @@
 import { createCanvas } from '@napi-rs/canvas';
 import { writeFileSync } from 'node:fs';
 
-const FW = 128, FH = 128, COLS = 4, ROWS = 5;
+const FW = 256, FH = 256, COLS = 4, ROWS = 5;
 const canvas = createCanvas(FW * COLS, FH * ROWS);
 const g = canvas.getContext('2d');
 g.imageSmoothingEnabled = true;
 
 // ── Frame helper ──────────────────────────────────────────────────────────────
+// All drawing functions use a 128-unit logical space; scale(2,2) renders them
+// at 256×256 for 2× resolution and crisper quality.
 function frame(col, row, fn) {
     g.save();
     g.translate(col * FW, row * FH);
     g.clearRect(0, 0, FW, FH);
+    g.scale(2, 2);
     fn();
     g.restore();
 }
@@ -553,8 +556,15 @@ for(let f=0;f<4;f++) frame(f,3,()=>{
     helmetBack(CX, HEAD_Y+12);
 });
 
-// ── Row 4: idle (copy frame 0 col 0) ─────────────────────────────────────────
-for(let f=0;f<4;f++) frame(f,4,()=>{ g.drawImage(canvas,0,0,FW,FH,0,0,FW,FH); });
+// ── Row 4: idle-down (same pose as walk-down frame 0) ────────────────────────
+for(let f=0;f<4;f++) frame(f,4,()=>{
+    groundShadow(CX, SHADOW_Y);
+    legsFront(CX, LEG_Y, 0);
+    torsoFront(CX, TORSO_Y, 0, 0);
+    neck(CX, NECK_Y);
+    headFront(CX, HEAD_Y+12);
+    helmetFront(CX, HEAD_Y+12);
+});
 
 writeFileSync('assets/morgan_sprite.png', canvas.toBuffer('image/png'));
 console.log(`✓ assets/morgan_sprite.png  (${canvas.width}×${canvas.height})`);
