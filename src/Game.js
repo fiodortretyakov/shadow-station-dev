@@ -49,25 +49,29 @@ export class Game {
         // Start background music
         SoundLoader.playMusic(this.k);
 
-        // Create the map
+        // Morgan Yu's apartment – Talos I, Transtar Executive Suites
+        // 16 wide × 13 tall, each tile = 64×64 px
         const mapLayout = [
-            'wwwwwwwwww',
-            'w........w',
-            'w........w',
-            'w........w',
-            'w........w',
-            'w........w',
-            'w........w',
-            'w........w',
-            'w........w',
-            'wwwwwwwwww',
+            'wwtWwwWwwwwwWtww',  // north wall: tech panels + windows
+            'w..............w',
+            'wBB..........SSw',  // bed (NW) + bookshelf (NE)
+            'wBB..........SSw',
+            'w..............w',
+            'w....ppppp.....w',  // decorative floor panel
+            'w....DDDDD.C...w',  // desk + chair
+            'w....DDDDD.C...w',
+            'w....X..M......w',  // computer terminal + mug
+            'w..............w',
+            'wLL............w',  // lockers (SW)
+            'w..............w',
+            'wwwwwwdwwwwwwww',  // south wall with door
         ];
         try {
             this.map = new GameMap(this.k, mapLayout);
             this.map.create();
 
-            // Create the player
-            this.player = new Player(this.k, { x: 320, y: 320 });
+            // Player starts roughly in the centre of the room
+            this.player = new Player(this.k, { x: 512, y: 448 });
             this.player.create();
         } catch (error) {
             console.error('Initialization error:', error);

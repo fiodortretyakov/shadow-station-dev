@@ -8,7 +8,7 @@ export const GAME_CONFIG = {
 
 export const PLAYER_CONFIG = {
     speed: 256,
-    scale: 0.46,
+    scale: 0.62,
     zIndex: 10,
     collisionBox: {
         offsetX: 2,
@@ -27,10 +27,9 @@ export const TILE_CONFIG = {
 };
 
 export const SPRITE_PATHS = {
-    walls: 'assets/Gemini_Generated_Image_3f987a3f987a3f98.png',
-    floor: 'assets/Gemini_Generated_Image_c5hlgmc5hlgmc5hl.png',
+    tiles: 'assets/tiles.png',
+    props: 'assets/props.png',
     character: 'assets/morgan_sprite.png',
-    atlas: 'assets/Gemini_Generated_Image_3f987a3f987a3f98.png',
 };
 
 export const SOUND_PATHS = {
