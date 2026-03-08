@@ -1,7 +1,7 @@
 import { PLAYER_CONFIG, ANIMATIONS } from '../config/constants.js';
 
 /**
- * Handles all player input (keyboard and potentially gamepad)
+ * Handles all player input (keyboard and gamepad)
  */
 export class InputHandler {
     /**
@@ -18,151 +18,71 @@ export class InputHandler {
      * Setup all input handlers
      */
     setupControls() {
-        this.setupKeyboardControls();
-        this.setupGamepadControls();
+        this.setupInteractionControls();
+        this.setupMovementUpdate();
     }
 
     /**
-     * Setup keyboard input handlers
+     * Setup interaction-only handlers (keyboard + gamepad)
      */
-    setupKeyboardControls() {
-        const { k, player, speed } = this;
+    setupInteractionControls() {
+        const { k, player } = this;
 
-        // LEFT
-        k.onKeyDown(['left', 'a'], () => {
-            player.move(-speed, 0);
-            player.setFlip(true);
-            player.playAnimation(ANIMATIONS.walkRight);
-        });
-
-        // RIGHT
-        k.onKeyDown(['right', 'd'], () => {
-            player.move(speed, 0);
-            player.setFlip(false);
-            player.playAnimation(ANIMATIONS.walkRight);
-        });
-
-        // UP
-        k.onKeyDown(['up', 'w'], () => {
-            player.move(0, -speed);
-            player.playAnimation(ANIMATIONS.walkUp);
-        });
-
-        // DOWN
-        k.onKeyDown(['down', 's'], () => {
-            player.move(0, speed);
-            player.playAnimation(ANIMATIONS.walkDown);
-        });
-
-        // Interaction
         k.onKeyPress('e', () => {
             player.interact();
         });
 
-        // Handle key release for idle animation
-        k.onKeyRelease(['left', 'right', 'up', 'down', 'a', 's', 'd', 'w'], () => {
-            if (
-                !k.isKeyDown('left') &&
-                !k.isKeyDown('right') &&
-                !k.isKeyDown('up') &&
-                !k.isKeyDown('down') &&
-                !k.isKeyDown('a') &&
-                !k.isKeyDown('s') &&
-                !k.isKeyDown('d') &&
-                !k.isKeyDown('w')
-            ) {
-                player.playAnimation(ANIMATIONS.idleDown);
-            }
+        k.onGamepadButtonPress('west', () => {
+            player.interact();
         });
     }
 
     /**
-     * Setup gamepad controls
+     * Unified movement + animation update running every frame.
+     * Fixes:
+     *   - Animation stuck when switching direction while holding keys
+     *   - Diagonal animation conflict (two handlers racing each frame)
+     *   - Diagonal movement being faster than cardinal movement
      */
-    setupGamepadControls() {
+    setupMovementUpdate() {
         const { k, player, speed } = this;
 
-        // Use onGamepadStick to handle movement
-        k.onGamepadStick('left', (pos) => {
-            if (pos.x !== 0 || pos.y !== 0) {
-                player.move(pos.x * speed, pos.y * speed);
+        k.onUpdate(() => {
+            const left  = k.isKeyDown('left')  || k.isKeyDown('a') || k.isGamepadButtonDown('dpad-left');
+            const right = k.isKeyDown('right') || k.isKeyDown('d') || k.isGamepadButtonDown('dpad-right');
+            const up    = k.isKeyDown('up')    || k.isKeyDown('w') || k.isGamepadButtonDown('dpad-up');
+            const down  = k.isKeyDown('down')  || k.isKeyDown('s') || k.isGamepadButtonDown('dpad-down');
 
-                // Handle animations based on dominant direction
-                if (Math.abs(pos.x) > Math.abs(pos.y)) {
-                    player.setFlip(pos.x < 0);
-                    player.playAnimation(ANIMATIONS.walkRight);
-                } else if (pos.y < 0) {
+            const stick = k.getGamepadStick('left');
+
+            let dx = (right ? 1 : 0) - (left ? 1 : 0) + stick.x;
+            let dy = (down  ? 1 : 0) - (up   ? 1 : 0) + stick.y;
+
+            // Normalize diagonal so speed stays consistent in all directions
+            if (dx !== 0 && dy !== 0) {
+                dx *= Math.SQRT1_2;
+                dy *= Math.SQRT1_2;
+            }
+
+            if (dx !== 0 || dy !== 0) {
+                player.move(dx * speed, dy * speed);
+
+                // Horizontal takes priority; fall back to vertical
+                if (Math.abs(dx) >= Math.abs(dy)) {
+                    player.setFlip(false);
+                    if (dx < 0) {
+                        player.playAnimation(ANIMATIONS.walkLeft);
+                    } else {
+                        player.playAnimation(ANIMATIONS.walkRight);
+                    }
+                } else if (dy < 0) {
                     player.playAnimation(ANIMATIONS.walkUp);
-                } else if (pos.y > 0) {
+                } else {
                     player.playAnimation(ANIMATIONS.walkDown);
                 }
-            }
-        });
-
-        // Handle stick release for idle animation
-        k.onGamepadStick('left', (pos) => {
-            if (pos.x === 0 && pos.y === 0) {
-                // Only go to idle if no keyboard keys are down either
-                if (
-                    !k.isKeyDown('left') &&
-                    !k.isKeyDown('right') &&
-                    !k.isKeyDown('up') &&
-                    !k.isKeyDown('down') &&
-                    !k.isKeyDown('a') &&
-                    !k.isKeyDown('s') &&
-                    !k.isKeyDown('d') &&
-                    !k.isKeyDown('w')
-                ) {
-                    player.playAnimation(ANIMATIONS.idleDown);
-                }
-            }
-        });
-
-        // Support D-pad as well
-        k.onGamepadButtonDown('dpad-left', () => {
-            player.move(-speed, 0);
-            player.setFlip(true);
-            player.playAnimation(ANIMATIONS.walkRight);
-        });
-
-        k.onGamepadButtonDown('dpad-right', () => {
-            player.move(speed, 0);
-            player.setFlip(false);
-            player.playAnimation(ANIMATIONS.walkRight);
-        });
-
-        k.onGamepadButtonDown('dpad-up', () => {
-            player.move(0, -speed);
-            player.playAnimation(ANIMATIONS.walkUp);
-        });
-
-        k.onGamepadButtonDown('dpad-down', () => {
-            player.move(0, speed);
-            player.playAnimation(ANIMATIONS.walkDown);
-        });
-
-        k.onGamepadButtonRelease(['dpad-left', 'dpad-right', 'dpad-up', 'dpad-down'], () => {
-            // Check if any movement input is still active
-            const stick = k.getGamepadStick('left');
-            if (
-                stick.x === 0 &&
-                stick.y === 0 &&
-                !k.isKeyDown('left') &&
-                !k.isKeyDown('right') &&
-                !k.isKeyDown('up') &&
-                !k.isKeyDown('down') &&
-                !k.isKeyDown('a') &&
-                !k.isKeyDown('s') &&
-                !k.isKeyDown('d') &&
-                !k.isKeyDown('w')
-            ) {
+            } else {
                 player.playAnimation(ANIMATIONS.idleDown);
             }
-        });
-
-        // Interaction button (X/Square)
-        k.onGamepadButtonPress('west', () => {
-            player.interact();
         });
     }
 }

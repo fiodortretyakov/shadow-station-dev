@@ -49,11 +49,11 @@ export class SpriteLoader {
             sliceX: 4,
             sliceY: 5,
             anims: {
-                'idle-down': 1,
-                'walk-down': { from: 0, to: 3, loop: true },
-                'walk-left': { from: 4, to: 7, loop: true },
-                'walk-right': { from: 8, to: 11, loop: true },
-                'walk-up': { from: 12, to: 15, loop: true },
+                'idle-down':  { from: 16, to: 16, loop: false },
+                'walk-down':  { from: 0,  to: 3,  loop: true, speed: 8 },
+                'walk-left':  { from: 4,  to: 7,  loop: true, speed: 8 },
+                'walk-right': { from: 8,  to: 11, loop: true, speed: 8 },
+                'walk-up':    { from: 12, to: 15, loop: true, speed: 8 },
             },
         });
     }

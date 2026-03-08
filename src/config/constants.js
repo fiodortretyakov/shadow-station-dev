@@ -3,16 +3,13 @@
  */
 
 export const GAME_CONFIG = {
-    crisp: true,
     pixelDensity: 2,
-    pixelate: true,
-    texFilter: 'nearest',
     debug: false,
 };
 
 export const PLAYER_CONFIG = {
     speed: 256,
-    scale: 0.8,
+    scale: 0.46,
     zIndex: 10,
     collisionBox: {
         offsetX: 2,
@@ -33,7 +30,7 @@ export const TILE_CONFIG = {
 export const SPRITE_PATHS = {
     walls: 'assets/Gemini_Generated_Image_3f987a3f987a3f98.png',
     floor: 'assets/Gemini_Generated_Image_c5hlgmc5hlgmc5hl.png',
-    character: 'assets/Gemini_Generated_Image_oe0aakoe0aakoe0a.png',
+    character: 'assets/morgan_sprite.png',
     atlas: 'assets/Gemini_Generated_Image_3f987a3f987a3f98.png',
 };
 
