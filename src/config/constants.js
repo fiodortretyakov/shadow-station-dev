@@ -7,6 +7,7 @@ export const GAME_CONFIG = {
     pixelDensity: 2,
     pixelate: true,
     texFilter: 'nearest',
+    debug: false,
 };
 
 export const PLAYER_CONFIG = {

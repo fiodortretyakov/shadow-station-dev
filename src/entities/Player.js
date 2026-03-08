@@ -26,12 +26,9 @@ export class Player {
         this.entity = k.add([
             k.sprite('morgan', { anim: ANIMATIONS.idleDown }),
             k.pos(k.vec2(position.x, position.y)),
+            k.shader('chroma'),
             k.area({
-                shape: new k.Rect(
-                    k.vec2(config.collisionBox.offsetX, config.collisionBox.offsetY),
-                    config.collisionBox.width,
-                    config.collisionBox.height,
-                ),
+                shape: new k.Rect(k.vec2(-6, 20), 12, 6),
             }),
             k.z(config.zIndex),
             k.body(),

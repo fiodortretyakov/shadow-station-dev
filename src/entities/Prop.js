@@ -33,6 +33,7 @@ export class Prop {
             k.body({ isStatic: false }),
             k.scale(TILE_CONFIG.wallScale),
             k.anchor('center'),
+            k.shader('chroma'),
             'prop',
             {
                 type: type,

@@ -36,35 +36,49 @@ export class GameMap {
                     k.scale(config.wallScale),
                     k.area(),
                     k.body({ isStatic: true }),
+                    k.shader('chroma'),
                 ],
                 t: () => [
                     k.sprite('wall-tech'),
                     k.scale(config.wallScale),
                     k.area(),
                     k.body({ isStatic: true }),
+                    k.shader('chroma'),
                 ],
                 m: () => [
                     k.sprite('monitor-panel'),
                     k.scale(config.wallScale),
                     k.area(),
                     k.body({ isStatic: true }),
+                    k.shader('chroma'),
                 ],
                 v: () => [
                     k.sprite('wall-vent'),
                     k.scale(config.wallScale),
                     k.area(),
                     k.body({ isStatic: true }),
+                    k.shader('chroma'),
                 ],
                 d: () => [
                     k.sprite('door-locked'),
                     k.scale(config.wallScale),
                     k.area(),
                     k.body({ isStatic: true }),
+                    k.shader('chroma'),
                 ],
                 h: () => [k.sprite('hazard-strip'), k.scale(config.wallScale)],
-                '.': () => [k.sprite('floor-solid'), k.scale(config.floorScale)],
-                p: () => [k.sprite('floor-pattern'), k.scale(config.floorScale)],
-                ' ': () => [k.sprite('space-void'), k.scale(config.floorScale)],
+                '.': () => [
+                    k.rect(config.width, config.height),
+                    k.color(30, 30, 40),
+                ],
+                p: () => [
+                    k.rect(config.width, config.height),
+                    k.color(40, 40, 50),
+                ],
+                ' ': () => [
+                    k.rect(config.width, config.height),
+                    k.color(0, 0, 0),
+                ],
                 C: (pos) => {
                     const prop = new Prop(k, 'chair', pos, { pickable: true });
                     prop.create();
