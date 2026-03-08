@@ -20,42 +20,40 @@ export class LightingSystem {
         const k = this.k;
 
         k.loadShader('darkness', null, `
-            uniform vec2  u_lightPos;      // player screen pos (px)
-            uniform vec2  u_coneDir;       // normalised facing direction
-            uniform float u_coneHalfAngle; // half-angle of flashlight cone (radians)
-            uniform float u_coneLen;       // flashlight reach (px)
-            uniform float u_ambientRadius; // soft ambient glow radius (px)
-            uniform float u_flicker;       // 0..1 subtle flicker value
-            uniform float u_darkness;      // overall darkness alpha 0..1
+            uniform vec2  u_lightPos;
+            uniform vec2  u_coneDir;
+            uniform float u_coneHalfAngle;
+            uniform float u_coneLen;
+            uniform float u_ambientRadius;
+            uniform float u_flicker;
+            uniform float u_darkness;
 
             vec4 frag(vec2 pos, vec2 uv, vec4 color, sampler2D tex) {
                 vec2  d    = pos - u_lightPos;
                 float dist = length(d);
 
-                // ── Ambient glow (small soft circle around player) ─────────
-                float ambient = smoothstep(u_ambientRadius, u_ambientRadius * 0.05, dist) * 0.75;
+                // Base room ambient — always lit, slight falloff at edges
+                float roomLight = 0.55;
 
-                // ── Flashlight cone ────────────────────────────────────────
+                // Soft player glow
+                float ambient = smoothstep(u_ambientRadius, 20.0, dist) * 0.35;
+
+                // Flashlight cone
                 float cone = 0.0;
                 if (dist > 0.5) {
-                    vec2  dir     = d / dist;
-                    float cosA    = dot(dir, u_coneDir);
-                    float edge    = cos(u_coneHalfAngle);
-                    // soft cone edge
-                    float inCone  = smoothstep(edge - 0.12, edge + 0.04, cosA);
-                    // distance falloff inside cone
-                    float falloff = smoothstep(u_coneLen, u_coneLen * 0.15, dist);
-                    // inner bright spot near player
-                    float near    = smoothstep(u_coneLen * 0.55, 0.0, dist) * 0.35;
-                    cone = clamp((inCone * falloff + near) * (0.92 + u_flicker * 0.08), 0.0, 1.0);
+                    vec2  dir    = d / dist;
+                    float cosA   = dot(dir, u_coneDir);
+                    float edge   = cos(u_coneHalfAngle);
+                    float inCone = smoothstep(edge - 0.15, edge + 0.05, cosA);
+                    float falloff= smoothstep(u_coneLen, u_coneLen * 0.1, dist);
+                    float near   = smoothstep(u_coneLen * 0.4, 0.0, dist) * 0.2;
+                    cone = clamp((inCone * falloff + near) * (0.95 + u_flicker * 0.05), 0.0, 1.0);
                 }
 
-                // ── Combine ────────────────────────────────────────────────
-                float light    = clamp(ambient + cone, 0.0, 1.0);
+                float light    = clamp(roomLight + ambient + cone, 0.0, 1.0);
                 float darkness = (1.0 - light) * u_darkness;
 
-                // Dark blue-tinted shadows (space-station atmosphere)
-                return vec4(0.0, 0.01, 0.06, darkness);
+                return vec4(0.0, 0.01, 0.05, darkness);
             }
         `);
 
@@ -103,11 +101,11 @@ export class LightingSystem {
         return {
             u_lightPos:      k.vec2(sx, sy),
             u_coneDir:       k.vec2(dirX, dirY),
-            u_coneHalfAngle: Math.PI / 3.0,   // ~60° half = ~120° cone
-            u_coneLen:       500,
-            u_ambientRadius: 260,
+            u_coneHalfAngle: Math.PI / 3.0,
+            u_coneLen:       420,
+            u_ambientRadius: 200,
             u_flicker:       flicker,
-            u_darkness:      0.5,
+            u_darkness:      0.62,
         };
     }
 

@@ -34,7 +34,6 @@ export const SPRITE_PATHS = {
 
 export const SOUND_PATHS = {
     music: 'assets/60.8s Recording (Dec 28 @ 7_05 PM) (Cover).mp3',
-    musicAlt: 'assets/60.8s Recording (Dec 28 @ 7_05 PM) (Cover) 1.mp3',
 };
 
 export const ANIMATIONS = {
