@@ -50,13 +50,14 @@ export class Game {
         SoundLoader.playMusic(this.k);
 
         // Morgan Yu's apartment – Talos I, Transtar Executive Suites
-        // 16 wide × 13 tall, each tile = 64×64 px
+        // 16 wide × 13 tall, each tile = 64×64 px.
+        // Every row is exactly 16 chars so the hull stays sealed.
         const mapLayout = [
-            'wwtWwwWwwwwwWtww',  // north wall: tech panels + windows
+            'cWWWWWWWWWWWWWWc',  // north wall: panoramic window (the city/space view)
             'w..............w',
             'wBB..........SSw',  // bed (NW) + bookshelf (NE)
             'wBB..........SSw',
-            'w..............w',
+            'w......G.......w',  // overhead lamp marker
             'w....ppppp.....w',  // decorative floor panel
             'w....DDDDD.C...w',  // desk + chair
             'w....DDDDD.C...w',
@@ -64,14 +65,14 @@ export class Game {
             'w..............w',
             'wLL............w',  // lockers (SW)
             'w..............w',
-            'wwwwwwdwwwwwwww',  // south wall with door
+            'wwwwwwwddwwwwwww',  // south wall with double door
         ];
         try {
             this.map = new GameMap(this.k, mapLayout);
             this.map.create();
 
-            // Player starts roughly in the centre of the room
-            this.player = new Player(this.k, { x: 512, y: 448 });
+            // Player starts on open floor near the door (row 9, centre)
+            this.player = new Player(this.k, { x: 480, y: 600 });
             this.player.create();
         } catch (error) {
             console.error('Initialization error:', error);
@@ -89,14 +90,14 @@ export class Game {
         const T = 64;
         // Overhead light – centre of bed area (col 2.5, row 2.5)
         this.lighting.addPointLight(2.5*T, 2.5*T, 260, 1.0, 0.95, 0.82);
-        // Overhead light – desk / workstation area (col 6.5, row 6.5)
-        this.lighting.addPointLight(6.5*T, 6.5*T, 300, 1.0, 0.92, 0.75);
-        // Overhead light – bookshelf corner (col 12.5, row 2.5)
-        this.lighting.addPointLight(12.5*T, 2.5*T, 240, 1.0, 0.95, 0.82);
+        // Overhead light – desk / workstation area (col 7, row 6.5)
+        this.lighting.addPointLight(7*T, 6.5*T, 300, 1.0, 0.92, 0.75);
+        // Overhead light – bookshelf corner (col 13.5, row 2.5)
+        this.lighting.addPointLight(13.5*T, 2.5*T, 240, 1.0, 0.95, 0.82);
         // Overhead light – centre of room (col 7.5, row 4)
         this.lighting.addPointLight(7.5*T, 4*T, 320, 0.95, 0.92, 1.0);
-        // Locker area light (col 2, row 10)
-        this.lighting.addPointLight(2*T, 10*T, 200, 1.0, 0.90, 0.70);
+        // Locker area light (col 1.5, row 10)
+        this.lighting.addPointLight(1.5*T, 10*T, 200, 1.0, 0.90, 0.70);
 
         // Feed player position + facing angle to lighting every frame
         this.k.onUpdate(() => {
