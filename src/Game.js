@@ -4,6 +4,7 @@ import { SpriteLoader } from './loaders/SpriteLoader.js';
 import { GameMap } from './world/GameMap.js';
 import { Player } from './entities/Player.js';
 import { InputHandler } from './controllers/InputHandler.js';
+import { SoundLoader } from './loaders/SoundLoader.js';
 import { LightingSystem } from './world/LightingSystem.js';
 
 /**
@@ -41,8 +42,12 @@ export class Game {
 
         this.k.setGravity(0);
 
-        // Load all sprites
+        // Load all sprites and sounds
         SpriteLoader.loadAllSprites(this.k);
+        SoundLoader.loadAllSounds(this.k);
+
+        // Background music is DISABLED (kept loaded — uncomment to re-enable)
+        // SoundLoader.playMusic(this.k);
 
         // Morgan Yu's apartment – Talos I, Transtar Executive Suites
         // 16 wide × 13 tall, each tile = 64×64 px.
